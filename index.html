@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sakhi - One private companion for every stage of a woman's health</title>
   
-
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Font: Plus Jakarta Sans, Noto Sans Devanagari & Noto Sans Kannada -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:wght@500;600;700&display=swap" rel="stylesheet">
@@ -39,12 +42,12 @@
   <style>
     body {
       font-family: 'Hanken Grotesk', 'Noto Sans Devanagari', 'Noto Sans Kannada', sans-serif;
-      background-color: #f3f4f0;
+      background: radial-gradient(900px 520px at 8% -6%, #f68ad8 0%, transparent 62%), radial-gradient(900px 520px at 62% -12%, #ff9f8c 0%, transparent 58%), radial-gradient(800px 700px at 105% 22%, #d9d0ff 0%, transparent 62%), #f7f6fa; background-attachment: fixed;
       color: #334155;
     }
-    .card-shadow { box-shadow: none; border-color: #d6dad0 !important; }
+    .card-shadow { box-shadow: 0 6px 22px rgba(140,80,160,.10); border-color: rgba(255,255,255,.8) !important; }
     h1, h2, h3 { font-family: 'Newsreader', Georgia, 'Noto Sans Devanagari', 'Noto Sans Kannada', serif; letter-spacing: -0.01em; }
-    .rounded-2xl { border-radius: 10px !important; } .rounded-3xl { border-radius: 14px !important; } .rounded-xl { border-radius: 7px !important; }
+    .rounded-2xl { border-radius: 20px !important; } .rounded-3xl { border-radius: 26px !important; } .rounded-xl { border-radius: 14px !important; }
     .shadow, .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl { box-shadow: none !important; }
     .animate-bounce { animation: none !important; }
     #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1d2330; color: #fff; padding: 10px 16px; border-radius: 7px; font-size: 13px; z-index: 80; }
@@ -61,6 +64,7 @@
 <body class="min-h-screen flex flex-col antialiased selection:bg-rose-200">
 
 
+  <!-- TOP DISCLAIMER BAR -->
   <div class="bg-rose-900 text-rose-100 px-4 py-2 text-xs md:text-sm text-center font-medium flex items-center justify-center gap-2 shadow-sm">
     <i data-lucide="shield-alert" class="w-4 h-4 text-rose-300"></i>
     <span id="txt-disclaimer-banner">Medical Disclaimer: Sakhi provides WHO/ICMR grounded health info. It is NOT a substitute for professional doctor diagnosis.</span>
@@ -68,10 +72,12 @@
   </div>
 
 
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-rose-100 shadow-sm">
+  <!-- HEADER & NAVIGATION -->
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-md border-b border-rose-100 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 sm:h-20">
         
+        <!-- LOGO & BRAND -->
         <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('ask-sakhi')">
           <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-800 p-0.5 shadow-md flex items-center justify-center">
             <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
@@ -87,8 +93,10 @@
         </div>
 
 
+        <!-- STAGE SELECTOR & CONTROLS -->
         <div class="flex items-center gap-2 sm:gap-4">
           
+          <!-- Life Stage Dropdown -->
           <div class="relative">
             <select id="stage-select" onchange="changeLifeStage(this.value)" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2 font-medium focus:ring-2 focus:ring-rose-400 focus:outline-none cursor-pointer">
               <option value="cycle">🌸 Cycle & Reproductive Years</option>
@@ -98,6 +106,7 @@
           </div>
 
 
+          <!-- Language Selector Dropdown -->
           <div class="flex items-center gap-1 bg-rose-50 border border-rose-200 rounded-xl px-2 py-1">
             <i data-lucide="globe" class="w-4 h-4 text-rose-700"></i>
             <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-transparent text-rose-700 font-semibold text-xs sm:text-sm focus:outline-none cursor-pointer">
@@ -108,6 +117,7 @@
           </div>
 
 
+          <!-- Privacy Badge -->
           <div class="hidden md:flex items-center gap-1 text-xs text-teal-700 bg-teal-50 px-2.5 py-1.5 rounded-lg font-medium border border-teal-200" title="All data stays on device in LocalStorage">
             <i data-lucide="lock" class="w-3.5 h-3.5"></i>
             <span>100% On-Device Anonymous</span>
@@ -119,6 +129,7 @@
     </div>
 
 
+    <!-- MAIN NAVIGATION TABS (NO MODULE PREFIXES) -->
     <nav class="bg-slate-50/80 border-t border-slate-100 overflow-x-auto no-scrollbar">
       <div class="max-w-7xl mx-auto px-4 flex gap-1 sm:gap-2 py-2">
         <button id="nav-ask-sakhi" onclick="switchTab('ask-sakhi')" class="nav-tab text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition whitespace-nowrap bg-rose-600 text-white shadow-sm">
@@ -154,9 +165,11 @@
   </header>
 
 
+  <!-- MAIN CONTENT CONTAINER -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
 
+    <!-- ACTIVE LIFE STAGE BANNER -->
     <div id="life-stage-banner" class="mb-6 bg-rose-800 rounded-2xl p-4 sm:p-6 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
       <div>
         <div class="flex items-center gap-2">
@@ -173,14 +186,19 @@
     </div>
 
 
+    <!-- ========================================================================= -->
+    <!-- ASK SAKHI -->
+    <!-- ========================================================================= -->
     <section id="sec-ask-sakhi" class="tab-content block space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
+        <!-- LEFT 2 COLUMNS: CHATBOT INTERFACE -->
         <div class="lg:col-span-2 bg-white rounded-2xl border border-rose-100 card-shadow flex flex-col h-[640px]">
+          <!-- Chat Header -->
           <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-rose-50/50 rounded-t-2xl">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-lg shadow">
-                
+                स
               </div>
               <div>
                 <h3 class="font-bold text-slate-800 flex items-center gap-2">
@@ -195,8 +213,12 @@
             </button>
           </div>
 
+
+          <!-- Chat Messages Scroll Area -->
           <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-4 bg-slate-50/30"></div>
 
+
+          <!-- Suggested Quick Prompts -->
           <div class="p-2 border-t border-slate-100 bg-white flex gap-2 overflow-x-auto no-scrollbar">
             <button onclick="sendQuickPrompt('Is missing a period normal during stress?')" class="text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 px-3 py-1.5 rounded-full font-medium whitespace-nowrap border border-rose-100">
               🌸 Stress & Period Delay
@@ -210,6 +232,7 @@
           </div>
 
 
+          <!-- Chat Input Area -->
           <div class="p-3 border-t border-slate-200 bg-white rounded-b-2xl flex items-center gap-2">
             <button id="voice-btn" onclick="toggleVoiceInput()" class="p-3 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition flex-shrink-0" title="Voice Input (Hindi/Kannada/English)">
               <i data-lucide="mic" class="w-5 h-5"></i>
@@ -222,8 +245,10 @@
         </div>
 
 
+        <!-- RIGHT 1 COLUMN: EXPANDED MYTH BUSTERS & CLINIC FINDER -->
         <div class="space-y-6">
           
+          <!-- MYTH VS FACT CARDS (EXPANDED LIST) -->
           <div class="bg-white rounded-2xl border border-slate-100 p-5 card-shadow">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-bold text-slate-800 flex items-center gap-2">
@@ -234,10 +259,12 @@
             </div>
 
 
+            <!-- Interactive Flip Cards Container -->
             <div id="myth-cards-container" class="space-y-4 max-h-[380px] overflow-y-auto pr-1"></div>
           </div>
 
 
+          <!-- NEAREST CLINIC & TELEHEALTH FINDER -->
           <div class="bg-white rounded-2xl border border-slate-100 p-5 card-shadow">
             <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-3">
               <i data-lucide="map-pin" class="w-5 h-5 text-teal-600"></i>
@@ -268,10 +295,16 @@
       </div>
     </section>
 
+
+    <!-- ========================================================================= -->
+    <!-- CYCLE & MIND (UPDATED WITH 3-MONTH RETENTION & REAL SUMMARY) -->
+    <!-- ========================================================================= -->
     <section id="sec-cycle-mind" class="tab-content hidden space-y-6">
       
+      <!-- TOP STATUS & CALCULATOR CARD -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
+        <!-- PERIOD DATE & CALCULATED PHASE -->
         <div class="bg-white p-5 rounded-2xl border border-rose-100 card-shadow">
           <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-3">
             <i data-lucide="calendar" class="w-5 h-5 text-rose-600"></i>
@@ -280,7 +313,7 @@
           <div class="space-y-3">
             <div>
               <label class="text-xs font-medium text-slate-600">Last Period Start Date:</label>
-              <input type="date" id="cycle-last-date" oninput="calculateCyclePhase()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
+              <input type="date" id="cycle-last-date" oninput="calculateCyclePhase()" onchange="recordPeriodStart(this.value)" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
             </div>
             <div>
               <label class="text-xs font-medium text-slate-600">Average Cycle Length (Days):</label>
@@ -291,6 +324,7 @@
               <label class="text-xs font-medium text-slate-600">Usual Period Length (Days):</label>
               <input type="number" id="period-length" value="5" min="2" max="10" oninput="calculateCyclePhase()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
             </div>
+            <!-- Result Box -->
             <div id="cycle-phase-result" class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-center">
               <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">CURRENT ESTIMATED PHASE</span>
               <span id="txt-current-phase" class="text-lg font-extrabold text-rose-800">Follicular Phase (Day 8)</span>
@@ -300,7 +334,9 @@
           </div>
         </div>
 
-        <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+
+        <!-- 30-SEC DAILY CHECK-IN -->
+        <div class="md:col-span-2 space-y-6"><div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
           <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-1">
             <i data-lucide="activity" class="w-5 h-5 text-purple-600"></i>
             <span>Daily Mind & Body Check-in (Saved up to 90 Days)</span>
@@ -309,6 +345,7 @@
 
 
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <!-- Mood -->
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
               <label class="text-xs font-bold text-slate-700 block mb-1">Mood</label>
               <select id="log-mood" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
@@ -319,6 +356,7 @@
                 <option value="1">😫 Low / Irritable</option>
               </select>
             </div>
+            <!-- Sleep -->
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
               <label class="text-xs font-bold text-slate-700 block mb-1">Sleep</label>
               <select id="log-sleep" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
@@ -327,6 +365,7 @@
                 <option value="1">🥱 Poor (&lt;5h)</option>
               </select>
             </div>
+            <!-- Stress -->
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
               <label class="text-xs font-bold text-slate-700 block mb-1">Stress</label>
               <select id="log-stress" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
@@ -335,6 +374,7 @@
                 <option value="5">🚨 High</option>
               </select>
             </div>
+            <!-- Energy -->
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
               <label class="text-xs font-bold text-slate-700 block mb-1">Energy</label>
               <select id="log-energy" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
@@ -343,6 +383,7 @@
                 <option value="1">🪫 Exhausted</option>
               </select>
             </div>
+            <!-- Pain -->
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center col-span-2 sm:col-span-1">
               <label class="text-xs font-bold text-slate-700 block mb-1">Cramps / Pain</label>
               <select id="log-pain" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
@@ -363,12 +404,31 @@
         </div>
 
 
+
+          <!-- DYNAMIC CHART -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="font-bold text-slate-800">Your Real Logged Trends (Mood & Sleep)</h3>
+                <p class="text-xs text-slate-500">Updates live as you log check-ins over time</p>
+              </div>
+              <button onclick="loadDemoCycleData()" class="text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg text-slate-600 font-medium">Load Sample 14-Day Data</button>
+            </div>
+            <div class="relative h-64 w-full">
+              <canvas id="cycleChart"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
 
+
+      <!-- REAL-TIME LOGGED SUMMARY CARD & CHART -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
+        
+        <!-- REAL DYNAMIC CHART & SUMMARY METRICS -->
         <div class="lg:col-span-2 space-y-4">
           
+          <!-- 30/90-DAY METRIC SUMMARY CARDS -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div class="bg-rose-50 border border-rose-100 p-3 rounded-2xl text-center">
               <span class="text-[10px] uppercase font-extrabold text-rose-600 tracking-wider">Total Check-ins</span>
@@ -393,16 +453,45 @@
           </div>
 
 
-          <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="font-bold text-slate-800">Your Real Logged Trends (Mood & Sleep)</h3>
-                <p class="text-xs text-slate-500">Updates live as you log check-ins over time</p>
+          <!-- CALENDAR -->
+          <div class="rounded-[28px] p-4 sm:p-5 card-shadow border" style="background:linear-gradient(160deg,rgba(246,138,216,.28),rgba(255,159,140,.22) 45%,rgba(217,208,255,.35))">
+            <div class="flex items-center justify-between">
+              <h3 class="text-3xl font-bold text-slate-900">Calendar</h3>
+              <div class="flex items-center gap-1 bg-white rounded-full px-1 py-1 text-xs font-bold">
+                <button onclick="calNav(-1)" class="w-7 h-7 rounded-full hover:bg-slate-100" aria-label="Previous month">‹</button>
+                <button onclick="calToday()" id="cal-title" class="px-2">Month</button>
+                <button onclick="calNav(1)" class="w-7 h-7 rounded-full hover:bg-slate-100" aria-label="Next month">›</button>
               </div>
-              <button onclick="loadDemoCycleData()" class="text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg text-slate-600 font-medium">Load Sample 14-Day Data</button>
             </div>
-            <div class="relative h-64 w-full">
-              <canvas id="cycleChart"></canvas>
+            <div class="grid grid-cols-7 gap-1.5 text-center text-[11px] text-slate-500 mt-4 mb-1.5" id="cal-head"></div>
+            <div id="cal-grid" class="grid grid-cols-7 gap-1.5"></div>
+            <div id="cal-detail" class="mt-3 bg-white/90 rounded-2xl p-3 text-xs text-slate-700"></div>
+            <h4 class="font-bold text-sm mt-4 mb-2">Legend</h4>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="bg-white rounded-2xl p-3 flex items-center gap-2"><i class="w-2.5 h-2.5 rounded-full" style="background:#f4606b"></i>Period</div>
+              <div class="bg-white rounded-2xl p-3 flex items-center gap-2"><i class="w-2.5 h-2.5 rounded-full" style="background:#1fb25a"></i>Fertile days</div>
+              <div class="bg-white rounded-2xl p-3 flex items-center gap-2"><i class="w-2.5 h-2.5 rounded-full" style="background:#3b9dff"></i>Ovulation</div>
+              <div class="bg-white rounded-2xl p-3 flex items-center gap-2"><i class="w-2.5 h-2.5 rounded-full" style="background:#a43fc7"></i>Symptoms / Mood</div>
+            </div>
+          </div>
+
+          <!-- QUICK LOG, CYCLE HISTORY, RECENT ENTRIES -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <h3 class="text-xl font-bold">Quick Log</h3>
+              <div class="grid grid-cols-4 gap-2">
+                <button onclick="openQL('period')" class="bg-white rounded-3xl py-4 card-shadow text-xs font-semibold flex flex-col items-center gap-1"><span class="text-xl">💧</span>Period</button>
+                <button onclick="openQL('mood')" class="bg-white rounded-3xl py-4 card-shadow text-xs font-semibold flex flex-col items-center gap-1"><span class="text-xl">🙂</span>Mood</button>
+                <button onclick="openQL('symptoms')" class="bg-white rounded-3xl py-4 card-shadow text-xs font-semibold flex flex-col items-center gap-1"><span class="text-xl">🌡️</span>Symptoms</button>
+                <button onclick="openQL('sex')" class="bg-white rounded-3xl py-4 card-shadow text-xs font-semibold flex flex-col items-center gap-1"><span class="text-xl">🤍</span>Sex</button>
+              </div>
+              <div id="ql-sheet" class="hidden bg-white rounded-3xl p-4 card-shadow text-xs"></div>
+              <h3 class="text-xl font-bold pt-2">Recent entries</h3>
+              <div id="recent-entries" class="space-y-2"></div>
+            </div>
+            <div class="space-y-4">
+              <h3 class="text-xl font-bold">Cycle history</h3>
+              <div id="cycle-history" class="space-y-3"></div>
             </div>
           </div>
 
@@ -410,8 +499,10 @@
         </div>
 
 
+        <!-- PMDD & POSTPARTUM RISK ALERTS -->
         <div class="space-y-4">
           
+          <!-- PMDD ALERT CARD WITH INTERACTIVE GUIDELINE MODAL TRIGGER -->
           <div id="pmdd-alert-card" class="bg-amber-50 border border-amber-200 p-4 rounded-2xl">
             <div class="flex items-start gap-3">
               <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"></i>
@@ -426,6 +517,7 @@
           </div>
 
 
+          <!-- POSTPARTUM MOOD SCREENER (10 questions, scored) -->
           <div class="bg-white border border-rose-100 p-4 rounded-2xl card-shadow">
             <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
               <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
@@ -448,10 +540,16 @@
       </div>
 
 
-    </section>
+    
+</section>
 
+
+    <!-- ========================================================================= -->
+    <!-- MOTHER WATCH (FULLY DYNAMIC & REAL MULTI-PATIENT LOGGING) -->
+    <!-- ========================================================================= -->
     <section id="sec-mother-watch" class="tab-content hidden space-y-6">
       
+      <!-- HEALTH WORKER MODE TOGGLE & PATIENT SELECTOR -->
       <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <div class="p-2.5 bg-teal-600 text-white rounded-xl">
@@ -465,6 +563,7 @@
         
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <select id="patient-select" onchange="switchPatientProfile(this.value)" class="bg-white border border-teal-300 text-slate-800 text-xs font-bold rounded-xl px-3 py-2 focus:ring-2 focus:ring-teal-500">
+            <!-- Dynamically populated -->
           </select>
           <button onclick="addNewPatientPrompt()" class="bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap shadow-sm">
             + New Patient Profile
@@ -472,8 +571,26 @@
         </div>
       </div>
 
+
+      <!-- PREGNANCY WEEK CALCULATOR -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+        <h3 class="font-bold text-slate-800 mb-3">Pregnancy Week Calculator</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-600">First day of last period (LMP):</label>
+            <input type="date" id="pw-lmp" onchange="lmpChanged()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
+            <p class="text-[11px] text-slate-500 mt-1">Or enter the due date in the box below. Each one fills the other.</p>
+          </div>
+          <div class="sm:col-span-2" id="pw-result"></div>
+        </div>
+      </div>
+
+      <div id="appt-alert-top"></div>
+
+      <!-- PREGNANCY PROFILE & RISK STATUS ENGINE -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
+        <!-- LEFT: DUE DATE & VITAL LOGGERS -->
         <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow space-y-4">
           <div class="flex justify-between items-center">
             <h3 class="font-bold text-slate-800 flex items-center gap-2">
@@ -486,13 +603,14 @@
 
           <div>
             <label class="text-xs font-bold text-slate-600">Estimated Due Date (EDD):</label>
-            <input type="date" id="preg-edd" onchange="calculateTrimester()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
+            <input type="date" id="preg-edd" onchange="eddChanged()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
             <div id="trimester-badge" class="mt-2 text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100">
               Trimester: Select EDD date above
             </div>
           </div>
 
 
+          <!-- Vital Inputs -->
           <div class="space-y-3 pt-2 border-t border-slate-100">
             <div class="grid grid-cols-2 gap-2">
               <div>
@@ -511,6 +629,8 @@
               <input type="number" id="vital-weight" placeholder="e.g. 62.5" step="0.5" class="w-full border border-slate-200 rounded-xl p-2 text-xs font-semibold">
             </div>
 
+
+            <!-- Warning Checkboxes -->
             <div class="space-y-1.5 pt-2">
               <span class="text-xs font-bold text-slate-700 block">Symptom Check:</span>
               <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
@@ -538,6 +658,8 @@
           </div>
         </div>
 
+
+        <!-- RIGHT: TRI-COLOR RISK STATUS DISPLAY -->
         <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 card-shadow flex flex-col justify-between">
           <div>
             <h3 class="font-bold text-slate-800 text-lg flex items-center justify-between">
@@ -545,6 +667,8 @@
               <span class="text-xs font-normal text-slate-400">WHO / ICMR Triage Protocol</span>
             </h3>
 
+
+            <!-- STATUS BOX ENGINE -->
             <div id="risk-status-card" class="mt-4 p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-300 transition-all">
               <div class="flex items-start gap-4">
                 <div id="risk-status-icon" class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-2xl flex-shrink-0">
@@ -561,6 +685,7 @@
             </div>
 
 
+            <!-- RED FLAG RULES RECAP -->
             <div class="mt-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
               <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2">Clinical Warning Thresholds:</h4>
               <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
@@ -571,6 +696,8 @@
             </div>
           </div>
 
+
+          <!-- APPOINTMENT & TEST REMINDERS -->
           <div class="mt-6 border-t border-slate-100 pt-4">
             <h4 class="font-bold text-slate-800 text-xs mb-2">Trimester Clinical Milestones:</h4>
             <div class="grid grid-cols-3 gap-2 text-center text-xs">
@@ -592,6 +719,28 @@
 
       </div>
 
+
+    
+      <!-- EMERGENCY GUIDANCE -->
+      <div class="bg-red-50 border-2 border-red-400 rounded-2xl p-5">
+        <h3 class="text-lg font-extrabold text-red-800">🚨 Warning signs: do not wait</h3>
+        <p class="text-sm font-semibold text-red-900 mt-1">इनमें से कोई भी लक्षण हो तो तुरंत अस्पताल जाएं या 108 पर कॉल करें।</p>
+        <div class="grid sm:grid-cols-2 gap-4 mt-3 text-xs text-red-950">
+          <div><h4 class="font-bold uppercase tracking-wider text-red-800 mb-1">Go to hospital now / call 108</h4>
+            <ul class="list-disc pl-4 space-y-1"><li>Heavy vaginal bleeding</li><li>Fits (convulsions) or fainting</li><li>Severe headache with blurred vision or spots</li><li>Severe belly pain</li><li>Baby moving much less, or not at all</li><li>Water breaking, or green or foul-smelling fluid</li><li>Trouble breathing or chest pain</li><li>High fever with shivering</li><li>BP 140/90 or higher</li></ul></div>
+          <div><h4 class="font-bold uppercase tracking-wider text-amber-800 mb-1">Call your doctor the same day</h4>
+            <ul class="list-disc pl-4 space-y-1 text-amber-950"><li>Swelling of face or hands</li><li>Vomiting that will not stop</li><li>Burning while passing urine</li><li>Regular contractions before 37 weeks</li><li>Itching of palms and soles</li></ul>
+            <h4 class="font-bold uppercase tracking-wider text-red-800 mt-3 mb-1">After delivery</h4>
+            <ul class="list-disc pl-4 space-y-1"><li>Soaking a pad every hour, fever, or foul discharge</li><li>Thoughts of harming yourself or the baby: call Tele-MANAS 14416 or 112</li></ul></div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <a href="tel:108" class="bg-red-600 text-white font-bold text-sm px-4 py-2 rounded-xl">Call ambulance 108</a>
+          <a href="tel:112" class="bg-red-100 text-red-800 font-bold text-sm px-4 py-2 rounded-xl">Emergency 112</a>
+          <a href="tel:14416" class="bg-white border border-red-300 text-red-800 font-bold text-sm px-4 py-2 rounded-xl">Tele-MANAS 14416</a>
+        </div>
+      </div>
+
+      <!-- READINGS HISTORY FOR ACTIVE PATIENT -->
       <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
         <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
           <h3 class="font-bold text-slate-800">Readings for <span id="mw-name">Self Profile</span></h3>
@@ -603,12 +752,49 @@
         <div id="mw-history" class="overflow-x-auto"></div>
       </div>
 
+    
+      <!-- CHARTS -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow"><h3 class="font-bold text-slate-800 mb-2">Blood pressure history</h3><p id="bp-empty" class="text-xs text-slate-500 hidden">Save at least one reading to see the chart.</p><div class="relative h-56"><canvas id="mw-bp-chart"></canvas></div></div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow"><h3 class="font-bold text-slate-800 mb-2">Weight history</h3><p id="wt-empty" class="text-xs text-slate-500 hidden">Save a reading with weight to see the chart.</p><div class="relative h-56"><canvas id="mw-wt-chart"></canvas></div></div>
+      </div>
+
+      <!-- APPOINTMENTS + TESTS -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow space-y-3">
+          <h3 class="font-bold text-slate-800">Antenatal appointments &amp; reminders</h3>
+          <div id="appt-alert"></div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <input type="date" id="ap-date" class="border border-slate-200 rounded-xl px-2 py-2">
+            <input type="time" id="ap-time" class="border border-slate-200 rounded-xl px-2 py-2">
+            <input type="text" id="ap-type" placeholder="Visit (e.g. ANC check-up, scan)" class="border border-slate-200 rounded-xl px-2 py-2">
+            <input type="text" id="ap-place" placeholder="Hospital / doctor" class="border border-slate-200 rounded-xl px-2 py-2">
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="addAppt()" class="bg-rose-600 text-white text-xs font-bold px-3 py-2 rounded-xl">Add appointment</button>
+            <button onclick="suggestAppts()" class="border border-slate-300 text-xs font-bold px-3 py-2 rounded-xl">Suggest WHO visit schedule</button>
+            <button onclick="enableAlerts()" class="border border-slate-300 text-xs font-bold px-3 py-2 rounded-xl">Turn on alerts</button>
+          </div>
+          <div id="appt-list" class="space-y-2"></div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+          <div class="flex justify-between items-center mb-1"><h3 class="font-bold text-slate-800">Tests recommended by your doctor</h3><span id="tests-progress" class="text-xs font-bold text-teal-700"></span></div>
+          <p class="text-[11px] text-slate-500 mb-3">Tick each test when it is done. Your doctor may add or skip some.</p>
+          <div id="tests-list"></div>
+        </div>
+      </div>
+
     </section>
 
+
+    <!-- ========================================================================= -->
+    <!-- CHANGE COMPANION (PERIMENOPAUSE & MENOPAUSE - FULLY INTERACTIVE) -->
+    <!-- ========================================================================= -->
     <section id="sec-change-companion" class="tab-content hidden space-y-6">
       
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
+        <!-- HOT FLASH & SYMPTOM LOGGERS -->
         <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow space-y-4">
           <h3 class="font-bold text-slate-800 flex items-center gap-2">
             <i data-lucide="flame" class="w-5 h-5 text-orange-500"></i>
@@ -664,8 +850,11 @@
           </div>
         </div>
 
+
+        <!-- DYNAMIC SYMPTOM PATTERN CARDS & SCREENING CHECKLIST -->
         <div class="lg:col-span-2 space-y-6">
           
+          <!-- PATTERN CARD (DYNAMICALLY UPDATED) -->
           <div id="meno-pattern-card" class="bg-rose-800 border border-purple-200 p-5 rounded-2xl">
             <div class="flex items-start gap-3">
               <i data-lucide="sparkles" class="w-6 h-6 text-purple-600 flex-shrink-0 mt-0.5"></i>
@@ -683,6 +872,7 @@
           </div>
 
 
+          <!-- AGE-BASED SCREENING CHECKLIST (INTERACTIVE PROGRESS) -->
           <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
             <div class="flex justify-between items-center mb-3">
               <h3 class="font-bold text-slate-800 flex items-center gap-2">
@@ -731,6 +921,10 @@
 
     </section>
 
+
+    <!-- ========================================================================= -->
+    <!-- DOCTOR VISIT SUMMARY (LIVE DYNAMIC REPORT WITH SELF-EDITABLE NOTES) -->
+    <!-- ========================================================================= -->
     <section id="sec-doctor-summary" class="tab-content hidden space-y-6">
       
       <div class="flex justify-between items-center">
@@ -745,8 +939,10 @@
       </div>
 
 
+      <!-- PRINTABLE SUMMARY CONTAINER -->
       <div id="printable-area" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 card-shadow space-y-6 max-w-4xl mx-auto">
         
+        <!-- Header -->
         <div class="border-b border-slate-200 pb-4 flex justify-between items-start">
           <div>
             <h1 class="text-2xl font-extrabold text-rose-700">Sakhi Patient Health Log</h1>
@@ -758,6 +954,8 @@
           </div>
         </div>
 
+
+        <!-- Life Stage & Active Profile -->
         <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl">
           <div>
             <span class="font-bold text-slate-700 block">Current Life Stage:</span>
@@ -770,6 +968,7 @@
         </div>
 
 
+        <!-- Logged Vitals & Symptoms Summary Grid -->
         <div>
           <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">1. Vitals & Logged Metrics</h3>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
@@ -793,6 +992,7 @@
         </div>
 
 
+        <!-- Red Flag Safety & Risk Status -->
         <div>
           <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">2. Risk Triage Status</h3>
           <div id="doc-risk-badge" class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 font-semibold">
@@ -803,6 +1003,7 @@
 
         <div id="doc-patient-detail"></div>
 
+        <!-- SELF UPDATABLE NOTES SECTION -->
         <div>
           <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1 flex justify-between items-center">
             <span>3. Patient Notes & Questions for Doctor</span>
@@ -812,6 +1013,7 @@
         </div>
 
 
+        <!-- Suggested Questions to Ask Doctor -->
         <div>
           <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">4. Standard Clinical Discussion Questions</h3>
           <ul class="text-xs text-slate-700 space-y-1.5 list-disc pl-5">
@@ -822,6 +1024,7 @@
         </div>
 
 
+        <!-- Footer Notes -->
         <div class="border-t border-slate-200 pt-3 text-[10px] text-slate-400 text-center">
           Generated via Sakhi Women's Health Companion • Patient self-report tool for clinical discussion support.
         </div>
@@ -835,6 +1038,8 @@
 
   </main>
 
+
+  <!-- INTERACTIVE PMDD CLINICAL GUIDANCE MODAL -->
   <div id="modal-pmdd" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-amber-200 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -880,6 +1085,8 @@
     </div>
   </div>
 
+
+  <!-- EMERGENCY RED FLAG MODAL -->
   <div id="modal-emergency" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-red-500 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -914,6 +1121,8 @@
     </div>
   </div>
 
+
+  <!-- LIFE STAGE SELECTOR MODAL -->
   <div id="modal-stage" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-xl border border-rose-100 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -955,9 +1164,12 @@
   </div>
 
 
+  <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
-  
-    let currentLang = 'en'; 
+    // =========================================================================
+    // STATE MANAGEMENT & DICTIONARIES
+    // =========================================================================
+    let currentLang = 'en'; // 'en', 'hi', or 'kn'
     let currentStage = 'cycle'; 
     let activePatientId = 'default';
     let hotFlashCount = 0;
@@ -966,11 +1178,13 @@
     let screeningStatus = { mammogram: false, pap: false, dexa: false };
 
 
+    // MULTI-PATIENT IN-MEMORY / STORAGE MAP FOR MOTHER WATCH
     let patientProfiles = {
       'default': { name: 'Self Profile', edd: '', sys: '', dia: '', weight: '', headache: false, vision: false, swelling: false, movement: false }
     };
 
 
+    // GROUNDED KNOWLEDGE BASE WITH ENGLISH, HINDI, AND KANNADA
     const kbData = [
       {
         keywords: ['stress', 'delay', 'late', 'missed', 'period', 'irregular', 'तनाव', 'विलंब', 'ಆತಂಕ', 'ತಡ'],
@@ -1003,6 +1217,7 @@
     ];
 
 
+    // EXPANDED MYTH VS FACT CARDS (8 CARDS)
     const mythCards = [
       {
         myth_en: "Myth: You shouldn't wash your hair or bathe during your period.",
@@ -1070,6 +1285,8 @@
       }
     ];
 
+
+    // CLINICS DATA
     const clinicData = [
       { name: "AIIMS Women's Wellness & ANC Clinic", loc: "delhi", type: "Government Hospital", contact: "011-26588500" },
       { name: "KEM Maternal & Reproductive Care", loc: "mumbai", type: "Public Healthcare", contact: "022-24107000" },
@@ -1077,6 +1294,8 @@
       { name: "MP District Matritva Line (Dewas/Bhopal)", loc: "mp", type: "Free Helpline (Tele-MANAS)", contact: "14416" }
     ];
 
+
+    // I18N DICTIONARY
     const i18n = {
       en: {
         tagline: "One private companion for every stage of a woman’s health",
@@ -1119,8 +1338,13 @@
       }
     };
 
+
+    // =========================================================================
+    // INITIALIZATION & SWITCHERS
+    // =========================================================================
     window.onload = function() {
       renderEpds();
+      renderCycleExtras();
       lucide.createIcons();
       loadPatientProfilesFromStorage();
       renderWelcomeChatMessage();
@@ -1218,6 +1442,10 @@
     function openPMDDModal() { document.getElementById('modal-pmdd').classList.remove('hidden'); }
     function closePMDDModal() { document.getElementById('modal-pmdd').classList.add('hidden'); }
 
+
+    // =========================================================================
+    // ASK SAKHI ENGINE
+    // =========================================================================
     function renderWelcomeChatMessage() {
       const chatBox = document.getElementById('chat-messages');
       let msg = "Namaste! I am <strong>Sakhi</strong>, your private health companion. I answer questions on periods, pregnancy, contraception, mental health, and menopause using official WHO and ICMR guidelines.";
@@ -1408,6 +1636,10 @@
       renderClinics(document.getElementById('clinic-city').value);
     }
 
+
+    // =========================================================================
+    // CYCLE & MIND (REAL 90-DAY RETENTION & DYNAMIC SUMMARY)
+    // =========================================================================
     function setDefaultDates() {
       let saved = null;
       try { saved = JSON.parse(localStorage.getItem('sakhi_cycle') || 'null'); } catch (e) {}
@@ -1440,7 +1672,7 @@
 
       const add = n => new Date(start.getTime() + n * DAY);
       const fmt = dt => dt.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
-      const ov = len - 14;                                  
+      const ov = len - 14;                                   // ovulation day number (luteal phase ~14 days)
       const b1 = per, b2 = Math.max(per, ov - 2), b3 = Math.max(b2, ov + 1);
       const late = diff >= len;
       const day = late ? len : diff + 1;
@@ -1477,7 +1709,17 @@
           <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100 col-span-2"><span class="text-slate-500 block">Fertile window</span><strong>${fmt(add(ov - 6))} to ${fmt(add(ov))}</strong> ${fertile ? '<span class="ml-1 text-teal-700 font-bold">· you are in it now</span>' : ''}</div>
         </div>
         <div class="text-xs text-slate-600">Next three periods: ${nexts}</div>
-        <p class="text-[10px] text-slate-400">Estimates assume ovulation about 14 days before your next period. Not reliable as contraception.</p>`;
+        <p class="text-[10px] text-slate-400">Estimates assume ovulation about 14 days before your next period. Not reliable as contraception.</p>
+        <div class="p-3 rounded-xl bg-white border border-slate-200 text-xs space-y-2">
+          <div id="pr-banner"></div>
+          <label class="flex items-center gap-2 font-semibold cursor-pointer"><input type="checkbox" id="pr-on" onchange="savePeriodReminder()"> Remind me before my period (optional)</label>
+          <div class="flex items-center gap-2 flex-wrap">
+            <select id="pr-days" onchange="savePeriodReminder()" class="border border-slate-200 rounded-lg px-2 py-1"><option value="1">1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option><option value="5">5 days before</option><option value="7">7 days before</option></select>
+            <button onclick="periodICS()" class="px-3 py-1.5 bg-rose-600 text-white font-bold rounded-lg">Add to calendar</button>
+          </div>
+          <p class="text-[10px] text-slate-400">The reminder shows here whenever you open Sakhi. The calendar file also alerts you when Sakhi is closed.</p>
+        </div>`;
+      restorePeriodReminder();
     }
 
 
@@ -1498,6 +1740,7 @@
 
       let logs = JSON.parse(localStorage.getItem('sakhi_90day_logs') || '[]');
       
+      // Filter out older than 90 days
       const ninetyDaysAgo = Date.now() - (90 * 24 * 60 * 60 * 1000);
       logs = logs.filter(l => l.timestamp >= ninetyDaysAgo);
       
@@ -1565,7 +1808,7 @@
 
     function updateCycleChartWithRealLogs(logs) {
       if (!cycleChartInstance) return;
-      const recent = logs.slice(-10); 
+      const recent = logs.slice(-10); // show last 10 entries
       cycleChartInstance.data.labels = recent.map(l => l.date.slice(5));
       cycleChartInstance.data.datasets[0].data = recent.map(l => l.mood);
       cycleChartInstance.data.datasets[1].data = recent.map(l => l.sleep);
@@ -1639,6 +1882,10 @@
     }
 
 
+    // =========================================================================
+    // MOTHER WATCH (DYNAMIC PATIENT PROFILES & ISOLATED DATA)
+    // =========================================================================
+
     function todayISO(d) { d = d || new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); }
     function toast(msg) {
       let t = document.getElementById('toast');
@@ -1646,7 +1893,7 @@
       t.innerText = msg; t.style.display = 'block';
       clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 2200);
     }
-    function blankPatient(name) { return { name, edd: '', readings: [], notes: '', epds: null }; }
+    function blankPatient(name) { return { name, edd: '', readings: [], notes: '', epds: null, appts: [], tests: {} }; }
     function riskLevel(r) {
       const sys = parseInt(r && r.sys), dia = parseInt(r && r.dia);
       if (isNaN(sys) || isNaN(dia)) return { k: 'none' };
@@ -1671,10 +1918,12 @@
       if (!patientProfiles.default) patientProfiles.default = blankPatient('Self Profile');
       Object.keys(patientProfiles).forEach(id => {
         const p = patientProfiles[id];
-        if (!Array.isArray(p.readings)) {                    
+        if (!Array.isArray(p.readings)) {                     // migrate older single-entry profiles
           p.readings = (p.sys && p.dia) ? [{ date: todayISO(), sys: p.sys, dia: p.dia, weight: p.weight, headache: !!p.headache, vision: !!p.vision, swelling: !!p.swelling, movement: !!p.movement }] : [];
         }
         if (p.notes === undefined) p.notes = '';
+        if (!Array.isArray(p.appts)) p.appts = [];
+        if (!p.tests) p.tests = {};
         if (p.epds === undefined) p.epds = null;
       });
       const old = localStorage.getItem('sakhi_doctor_notes');
@@ -1721,6 +1970,7 @@
       evaluateMotherWatchRisk();
       renderReadings();
       renderEpds();
+      renderPregWeek(); renderAppts(); renderTests();
     }
 
     function saveAndEvaluateMotherWatch() {
@@ -1733,7 +1983,7 @@
       const r = { date: todayISO(), sys, dia, weight: document.getElementById('vital-weight').value,
         headache: document.getElementById('chk-headache').checked, vision: document.getElementById('chk-vision').checked,
         swelling: document.getElementById('chk-swelling').checked, movement: document.getElementById('chk-movement').checked };
-      const same = p.readings.findIndex(x => x.date === r.date);    
+      const same = p.readings.findIndex(x => x.date === r.date);   // one reading per day, re-saving updates it
       if (same >= 0) p.readings[same] = r; else p.readings.push(r);
       p.readings.sort((a, b) => a.date.localeCompare(b.date));
       savePatientProfilesToStorage();
@@ -1751,6 +2001,7 @@
 
     function renderReadings() {
       const p = patientProfiles[activePatientId], el = document.getElementById('mw-history');
+      renderCharts();
       if (!p.readings.length) { el.innerHTML = '<p class="text-xs text-slate-500">No readings saved for this patient yet. Enter a blood pressure on the left and press Save.</p>'; return; }
       const pill = { red: 'bg-red-100 text-red-800', amber: 'bg-amber-100 text-amber-800', green: 'bg-emerald-100 text-emerald-800' };
       const word = { red: 'Urgent', amber: 'Watch', green: 'Normal' };
@@ -1837,6 +2088,7 @@
         }
         html += '</div>';
       }
+      html += summaryExtra(p);
       $('doc-patient-detail').innerHTML = html;
       $('doc-user-notes').value = p.notes || '';
     }
@@ -1868,6 +2120,10 @@
       loadPatientFormData(activePatientId);
     }
 
+
+    // =========================================================================
+    // CHANGE COMPANION (INTERACTIVE PERIMENOPAUSE MODULE)
+    // =========================================================================
     function changeFlashCount(delta) {
       hotFlashCount = Math.max(0, hotFlashCount + delta);
       document.getElementById('flash-count').innerText = hotFlashCount;
@@ -1931,10 +2187,277 @@
       document.getElementById('screening-progress').innerText = `${count} of 3 Done`;
     }
 
+
+    // =========================================================================
+    // DOCTOR VISIT SUMMARY (LIVE DYNAMIC GENERATOR)
+    // =========================================================================
+
+
     function printDoctorSummary() {
       window.print();
     }
 
+
+
+    // =========================================================================
+    // SHARED HELPERS
+    // =========================================================================
+    const DAYMS = 864e5;
+    const LS = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? d : v; } catch (e) { return d; } };
+    const SV = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+    const parseD = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+    const fmtD = (d, o) => d.toLocaleDateString(undefined, o || { day: 'numeric', month: 'short' });
+    const ordinal = n => { const v = n % 100; return n + (['th', 'st', 'nd', 'rd'][(v - 20) % 10] || ['th', 'st', 'nd', 'rd'][v] || 'th'); };
+    const addDaysISO = (s, n) => todayISO(new Date(parseD(s).getTime() + n * DAYMS));
+    function relTime(ts) {
+      const d = new Date(ts), t = new Date();
+      const dd = Math.round((new Date(t.getFullYear(), t.getMonth(), t.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / DAYMS);
+      return (dd === 0 ? 'Today' : dd === 1 ? 'Yesterday' : fmtD(d)) + ', ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
+    function notifyOnce(key, title, body) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      const k = 'sakhi_n_' + key + '_' + todayISO();
+      if (localStorage.getItem(k)) return;
+      try { new Notification(title, { body }); localStorage.setItem(k, '1'); } catch (e) {}
+    }
+    function enableAlerts() {
+      if (!('Notification' in window)) { toast('This browser does not support alerts.'); return; }
+      Notification.requestPermission().then(r => toast(r === 'granted' ? 'Alerts on. They show while Sakhi is open.' : 'Alerts were not allowed.'));
+    }
+    function downloadICS(events, name) {
+      const esc = t => String(t || '').replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n');
+      const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sakhi//EN'];
+      events.forEach((e, i) => {
+        const d = e.date.replace(/-/g, '');
+        L.push('BEGIN:VEVENT', `UID:sakhi-${Date.now()}-${i}@sakhi.local`, 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z');
+        if (e.time) { const t = e.time.replace(':', '') + '00'; L.push(`DTSTART:${d}T${t}`, `DTEND:${d}T${String(Math.min(23, +e.time.slice(0, 2) + 1)).padStart(2, '0')}${e.time.slice(3)}00`); }
+        else L.push(`DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${addDaysISO(e.date, 1).replace(/-/g, '')}`);
+        L.push('SUMMARY:' + esc(e.title), 'DESCRIPTION:' + esc(e.desc));
+        e.alarms.forEach(a => L.push('BEGIN:VALARM', 'TRIGGER:' + a, 'ACTION:DISPLAY', 'DESCRIPTION:' + esc(e.title), 'END:VALARM'));
+        L.push('END:VEVENT');
+      });
+      L.push('END:VCALENDAR');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([L.join('\r\n')], { type: 'text/calendar' }));
+      a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    }
+
+    // =========================================================================
+    // CYCLE TAB: CALENDAR, QUICK LOG, HISTORY, REMINDERS
+    // =========================================================================
+    let calM = new Date(); calM.setDate(1); let calSel = todayISO();
+    function recordPeriodStart(ds) {
+      if (!ds) return;
+      const a = LS('sakhi_period_starts', []);
+      if (!a.includes(ds)) { a.push(ds); a.sort(); SV('sakhi_period_starts', a); }
+      renderCycleExtras();
+    }
+    function dayInfo(d) {
+      const c = LS('sakhi_cycle', null); if (!c) return {};
+      const diff = Math.round((d - parseD(c.val)) / DAYMS); if (diff < 0) return {};
+      const k = diff % c.len, ov = c.len - 14, o = {};
+      if (k < c.per) o.period = 1;
+      if (k >= ov - 6 && k <= ov) o.fertile = 1;
+      if (k === ov - 1) o.ovul = 1;
+      return o;
+    }
+    function calNav(n) { calM = new Date(calM.getFullYear(), calM.getMonth() + n, 1); renderCalendar(); }
+    function calToday() { calM = new Date(); calM.setDate(1); calSel = todayISO(); renderCalendar(); }
+    function selectCalDay(ds) { calSel = ds; renderCalendar(); }
+    function renderCalendar() {
+      const grid = document.getElementById('cal-grid'); if (!grid) return;
+      const y = calM.getFullYear(), m = calM.getMonth(), lead = new Date(y, m, 1).getDay(), dim = new Date(y, m + 1, 0).getDate(), rows = Math.ceil((lead + dim) / 7);
+      document.getElementById('cal-title').innerText = calM.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+      const wd = new Date().getDay();
+      document.getElementById('cal-head').innerHTML = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((n, i) => `<span class="${i === wd ? 'font-extrabold text-slate-900' : ''}">${n}</span>`).join('');
+      const mark = {}; const add = (d, k) => { (mark[d] = mark[d] || {})[k] = 1; };
+      LS('sakhi_events', []).forEach(e => add(e.date, e.type)); LS('sakhi_90day_logs', []).forEach(l => add(l.date, 'sym'));
+      const today = todayISO(); let h = '';
+      for (let i = 0; i < rows * 7; i++) {
+        const d = new Date(y, m, 1 - lead + i), ds = todayISO(d), inM = d.getMonth() === m, inf = dayInfo(d), mk = mark[ds] || {};
+        const dots = [(inf.period || mk.period) ? '#f4606b' : '', inf.fertile ? '#1fb25a' : '', inf.ovul ? '#3b9dff' : '', (mk.sym || mk.mood || mk.symptoms) ? '#a43fc7' : ''].filter(Boolean);
+        h += `<button onclick="selectCalDay('${ds}')" aria-label="${ds}" class="h-12 sm:h-14 rounded-2xl flex flex-col items-center justify-center text-xs font-semibold ${inM ? 'bg-white text-slate-900' : 'bg-white/40 text-slate-400'} ${ds === today ? 'ring-2 ring-pink-400' : ''} ${ds === calSel ? 'ring-2 ring-rose-700' : ''}">${d.getDate()}<span class="flex gap-0.5 h-1.5 mt-1">${dots.map(c => `<i class="w-1.5 h-1.5 rounded-full" style="background:${c}"></i>`).join('')}</span></button>`;
+      }
+      grid.innerHTML = h;
+      const d = parseD(calSel), inf = dayInfo(d), tags = [];
+      if (inf.period) tags.push('Predicted period'); if (inf.fertile) tags.push('Fertile window'); if (inf.ovul) tags.push('Likely ovulation');
+      const ev = LS('sakhi_events', []).filter(e => e.date === calSel).map(e => `${e.type === 'period' ? '💧' : e.type === 'mood' ? '🙂' : e.type === 'sex' ? '🤍' : '🌡️'} ${e.label}`);
+      const lg = LS('sakhi_90day_logs', []).filter(l => l.date === calSel).map(l => `Check-in: mood ${l.mood}/5, sleep ${l.sleep}/5, pain ${l.pain}`);
+      document.getElementById('cal-detail').innerHTML = `<strong>${fmtD(d, { weekday: 'long', day: 'numeric', month: 'long' })}</strong><br>${tags.length ? tags.join(' · ') : 'No cycle events predicted for this day.'}${[...ev, ...lg].map(x => `<br>${x}`).join('')}`;
+    }
+
+    let qlSym = [];
+    const SYMQ = ['Cramps', 'Headache', 'Bloating', 'Nausea', 'Fatigue', 'Back pain', 'Tender breasts', 'Acne'];
+    const qlBtn = 'px-3 py-2 rounded-full bg-slate-100 hover:bg-rose-100 text-xs font-semibold';
+    function openQL(t) {
+      qlSym = []; const el = document.getElementById('ql-sheet'); el.classList.remove('hidden'); let h = '';
+      const opts = (arr, type) => `<div class="flex flex-wrap gap-2">${arr.map(x => `<button class="${qlBtn}" onclick="saveQL('${type}','${x}')">${x}</button>`).join('')}</div>`;
+      if (t === 'period') h = `<p class="font-bold text-sm mb-2">Log period</p><label class="flex items-center gap-2 mb-2"><input type="checkbox" id="ql-first"> Today is the first day of my period</label>${opts(['Spotting', 'Light flow', 'Medium flow', 'Heavy flow'], 'period')}`;
+      if (t === 'mood') h = `<p class="font-bold text-sm mb-2">How is your mood?</p>${opts(['😄 Happy', '🙂 Calm', '😐 Neutral', '😔 Anxious', '😫 Low'], 'mood')}`;
+      if (t === 'sex') h = `<p class="font-bold text-sm mb-2">Log (stays on this device)</p>${opts(['Protected', 'Unprotected'], 'sex')}`;
+      if (t === 'symptoms') h = `<p class="font-bold text-sm mb-2">Pick symptoms</p><div class="flex flex-wrap gap-2">${SYMQ.map(x => `<button class="${qlBtn}" onclick="toggleQLSym('${x}',this)">${x}</button>`).join('')}</div><button class="mt-3 bg-rose-600 text-white font-bold px-4 py-2 rounded-xl" onclick="saveQL('symptoms',qlSym.join(', '))">Save symptoms</button>`;
+      el.innerHTML = h + `<button class="mt-3 ml-2 text-slate-500 font-semibold" onclick="document.getElementById('ql-sheet').classList.add('hidden')">Cancel</button>`;
+    }
+    function toggleQLSym(x, b) { qlSym = qlSym.includes(x) ? qlSym.filter(y => y !== x) : [...qlSym, x]; b.classList.toggle('bg-rose-600'); b.classList.toggle('text-white'); b.classList.toggle('bg-slate-100'); }
+    function saveQL(type, label) {
+      if (!label) { toast('Pick at least one.'); return; }
+      const first = type === 'period' && document.getElementById('ql-first') && document.getElementById('ql-first').checked;
+      const ev = LS('sakhi_events', []); ev.push({ id: Date.now(), ts: Date.now(), date: todayISO(), type, label }); SV('sakhi_events', ev);
+      document.getElementById('ql-sheet').classList.add('hidden');
+      if (first) { document.getElementById('cycle-last-date').value = todayISO(); recordPeriodStart(todayISO()); calculateCyclePhase(); }
+      renderCycleExtras(); toast('Logged');
+    }
+    function delEvent(id) { SV('sakhi_events', LS('sakhi_events', []).filter(e => e.id !== id)); renderCycleExtras(); }
+    function renderRecent() {
+      const el = document.getElementById('recent-entries'); if (!el) return;
+      const icon = { period: '💧', mood: '🙂', symptoms: '🌡️', sex: '🤍', checkin: '📝' }, name = { period: 'Period', mood: 'Mood', symptoms: 'Symptoms', sex: 'Intimacy', checkin: 'Check-in' };
+      const mood = { 5: 'Great', 4: 'Calm', 3: 'Neutral', 2: 'Anxious', 1: 'Low' };
+      const all = [...LS('sakhi_events', []).map(e => ({ ...e })), ...LS('sakhi_90day_logs', []).map(l => ({ ts: l.timestamp, type: 'checkin', label: 'Mood ' + (mood[l.mood] || l.mood) + ', sleep ' + l.sleep + '/5' }))].sort((a, b) => b.ts - a.ts).slice(0, 6);
+      el.innerHTML = all.length ? all.map(e => `<div class="bg-white rounded-3xl p-3 card-shadow flex items-center gap-3"><div class="w-11 h-11 rounded-full flex items-center justify-center text-lg" style="background:linear-gradient(135deg,#ff9bd5,#ff8a7a)">${icon[e.type]}</div><div class="flex-1"><p class="text-sm font-bold">${name[e.type]} · ${escapeHtml(e.label)}</p><p class="text-xs text-slate-500">${relTime(e.ts)}</p></div>${e.id ? `<button onclick="delEvent(${e.id})" class="text-slate-300 hover:text-red-600 text-lg" aria-label="Delete entry">&times;</button>` : ''}</div>`).join('') : '<p class="text-xs text-slate-500 bg-white rounded-3xl p-4">Nothing logged yet. Use Quick Log above.</p>';
+    }
+    function renderHistory() {
+      const el = document.getElementById('cycle-history'); if (!el) return;
+      const c = LS('sakhi_cycle', null);
+      if (!c) { el.innerHTML = '<p class="text-xs text-slate-500 bg-white rounded-3xl p-4">Enter your last period date in the calculator to start your cycle history.</p>'; return; }
+      const all = [...new Set([...LS('sakhi_period_starts', []), c.val])].sort(), today = parseD(todayISO()), out = [];
+      for (let i = all.length - 1; i >= 0 && out.length < 3; i--) {
+        const s0 = parseD(all[i]), nx = all[i + 1] ? parseD(all[i + 1]) : null, cur = !nx, len = cur ? c.len : Math.round((nx - s0) / DAYMS), diff = Math.round((today - s0) / DAYMS), ov = len - 14;
+        if (len < 5 || len > 90) continue;
+        let dots = '';
+        for (let k = 0; k < len; k++) { const col = k < c.per ? '#e5484d' : (k >= ov - 6 && k <= ov ? (k === ov - 1 ? '#3b9dff' : '#1fb25a') : '#cdb4f0'); const fut = cur && k > diff, now = cur && k === diff; dots += `<i class="inline-block rounded-full ${now ? 'w-3 h-3 ring-2 ring-slate-800' : 'w-2 h-2'} mr-1" style="background:${fut ? '#e4e4e7' : col}"></i>`; }
+        out.push(`<div class="bg-white rounded-3xl p-4 card-shadow"><div class="flex justify-between"><strong class="text-sm">${cur ? 'Current cycle' : 'Cycle'}: ${len} days</strong><span class="text-xs font-bold text-blue-600">${cur ? (diff >= len ? 'Period due' : ordinal(diff + 1) + ' day') : 'Completed'}</span></div><p class="text-xs text-slate-500">Started ${fmtD(s0, { day: 'numeric', month: 'long', year: 'numeric' })}</p><div class="mt-2 leading-4">${dots}</div></div>`);
+      }
+      el.innerHTML = out.join('');
+    }
+    function renderCycleExtras() { renderCalendar(); renderHistory(); renderRecent(); }
+    { const _a = calculateCyclePhase; calculateCyclePhase = function () { _a(); renderCycleExtras(); }; }
+    { const _b = loadStoredLogsAndUpdateSummary; loadStoredLogsAndUpdateSummary = function () { _b(); renderCycleExtras(); }; }
+
+    function savePeriodReminder() { SV('sakhi_pr', { on: document.getElementById('pr-on').checked, days: +document.getElementById('pr-days').value }); if (document.getElementById('pr-on').checked) enableAlerts(); restorePeriodReminder(); }
+    function nextPeriodDate() {
+      const c = LS('sakhi_cycle', null); if (!c) return null;
+      const diff = Math.round((parseD(todayISO()) - parseD(c.val)) / DAYMS);
+      return new Date(parseD(c.val).getTime() + c.len * (Math.floor(diff / c.len) + 1) * DAYMS);
+    }
+    function restorePeriodReminder() {
+      const pr = LS('sakhi_pr', { on: false, days: 2 }), on = document.getElementById('pr-on'); if (!on) return;
+      on.checked = pr.on; document.getElementById('pr-days').value = pr.days;
+      const nx = nextPeriodDate(), b = document.getElementById('pr-banner'); if (!nx) return;
+      const to = Math.round((nx - parseD(todayISO())) / DAYMS);
+      if (pr.on && to >= 0 && to <= pr.days) {
+        const t = to === 0 ? 'Your period is expected today.' : `Your period is expected in ${to} day${to > 1 ? 's' : ''} (${fmtD(nx)}).`;
+        b.innerHTML = `<div class="p-2 rounded-lg bg-pink-100 text-pink-900 font-bold">🔔 ${t}</div>`; notifyOnce('period', 'Sakhi period reminder', t);
+      } else b.innerHTML = '';
+    }
+    function periodICS() {
+      const c = LS('sakhi_cycle', null); if (!c) { toast('Set your last period date first.'); return; }
+      const pr = LS('sakhi_pr', { days: 2 }), ev = [];
+      for (let k = 1; k <= 3; k++) ev.push({ date: todayISO(new Date(parseD(c.val).getTime() + c.len * k * DAYMS)), title: 'Period expected (Sakhi)', desc: 'Estimate based on a ' + c.len + '-day cycle.', alarms: ['-P' + pr.days + 'D'] });
+      // first event may be in the past if the date is old, shift forward
+      downloadICS(ev.filter(e => e.date >= todayISO()), 'sakhi-period-reminders.ics');
+    }
+
+    // =========================================================================
+    // MOTHER WATCH: WEEK CALCULATOR, APPOINTMENTS, TESTS, CHARTS
+    // =========================================================================
+    const MILE = [[0, 'Early weeks. Start or continue folic acid and book your first antenatal visit.'], [8, 'First antenatal visit, blood tests and a dating scan are usually done around now.'], [13, 'Second trimester. Nausea often eases. Keep taking iron and folic acid as advised.'], [18, 'The anomaly scan is usually done between 18 and 20 weeks.'], [24, 'Glucose tolerance testing is usually done between 24 and 28 weeks.'], [28, 'Third trimester. Start counting baby kicks daily.'], [34, 'Visits become more frequent. Keep your hospital bag and papers ready.'], [37, 'Full term is close. Know your route to the hospital and who will take you.'], [40, 'Due date. Talk to your doctor about a plan if labour has not started.']];
+    function eddChanged() {
+      const p = patientProfiles[activePatientId]; p.edd = document.getElementById('preg-edd').value;
+      savePatientProfilesToStorage(); calculateTrimester(); renderPregWeek(); renderTests(); renderAppts();
+    }
+    function lmpChanged() {
+      const v = document.getElementById('pw-lmp').value; if (!v) return;
+      document.getElementById('preg-edd').value = addDaysISO(v, 280); eddChanged();
+    }
+    function renderPregWeek() {
+      const p = patientProfiles[activePatientId], el = document.getElementById('pw-result'); if (!el) return;
+      document.getElementById('pw-lmp').value = p.edd ? addDaysISO(p.edd, -280) : '';
+      if (!p.edd) { el.innerHTML = '<p class="text-xs text-slate-500">Enter the last period date or the due date to see the current week.</p>'; return; }
+      const days = Math.round((parseD(todayISO()) - parseD(addDaysISO(p.edd, -280))) / DAYMS);
+      if (days < 0 || days > 300) { el.innerHTML = '<p class="text-xs text-red-700 font-semibold">That date does not fit a current pregnancy. Please check it.</p>'; return; }
+      const w = Math.floor(days / 7), d = days % 7, left = 280 - days, tri = w < 13 ? 1 : w < 28 ? 2 : 3, note = [...MILE].reverse().find(x => w >= x[0])[1];
+      el.innerHTML = `<div class="flex flex-wrap items-end gap-x-4"><span class="text-3xl font-bold font-serif">Week ${w}${d ? ` + ${d} day${d > 1 ? 's' : ''}` : ''}</span><span class="text-xs font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-lg">Trimester ${tri}</span></div>
+        <div class="h-2.5 bg-slate-100 rounded-full mt-2 overflow-hidden"><div class="h-full bg-rose-600" style="width:${Math.min(100, days / 280 * 100)}%"></div></div>
+        <p class="text-xs text-slate-700 mt-2"><strong>Due date:</strong> ${fmtD(parseD(p.edd), { day: 'numeric', month: 'long', year: 'numeric' })} · ${left > 0 ? left + ' days to go' : 'due date has passed'}</p>
+        <p class="text-xs text-slate-600 mt-1">${note}</p>`;
+    }
+
+    function patAppts() { return patientProfiles[activePatientId].appts; }
+    function addAppt() {
+      const date = document.getElementById('ap-date').value; if (!date) { toast('Pick a date for the appointment.'); return; }
+      patAppts().push({ id: Date.now(), date, time: document.getElementById('ap-time').value, type: document.getElementById('ap-type').value.trim() || 'ANC check-up', place: document.getElementById('ap-place').value.trim(), notes: '', done: false });
+      ['ap-date', 'ap-time', 'ap-type', 'ap-place'].forEach(i => document.getElementById(i).value = '');
+      savePatientProfilesToStorage(); renderAppts(); toast('Appointment added');
+    }
+    function suggestAppts() {
+      const p = patientProfiles[activePatientId]; if (!p.edd) { toast('Enter the due date first.'); return; }
+      const lmp = addDaysISO(p.edd, -280); let n = 0;
+      [12, 20, 26, 30, 34, 36, 38, 40].forEach(w => {
+        const date = addDaysISO(lmp, w * 7), type = `ANC contact (week ${w})`;
+        if (date >= todayISO() && !p.appts.some(a => a.type === type)) { p.appts.push({ id: Date.now() + w, date, time: '', type, place: '', notes: '', done: false }); n++; }
+      });
+      savePatientProfilesToStorage(); renderAppts(); toast(n ? `${n} visits added (WHO 8-contact schedule)` : 'No upcoming visits to add');
+    }
+    function toggleAppt(id) { const a = patAppts().find(x => x.id === id); a.done = !a.done; savePatientProfilesToStorage(); renderAppts(); }
+    function delAppt(id) { const p = patientProfiles[activePatientId]; p.appts = p.appts.filter(x => x.id !== id); savePatientProfilesToStorage(); renderAppts(); }
+    function apptNote(id, v) { patAppts().find(x => x.id === id).notes = v; savePatientProfilesToStorage(); }
+    function apptICS(id) {
+      const a = patAppts().find(x => x.id === id), p = patientProfiles[activePatientId];
+      downloadICS([{ date: a.date, time: a.time, title: `${a.type} (${p.name})`, desc: a.place || 'Antenatal appointment', alarms: a.time ? ['-P1D', '-PT2H'] : ['-P1D'] }], 'sakhi-appointment.ics');
+    }
+    function renderAppts() {
+      const list = document.getElementById('appt-list'); if (!list) return;
+      const p = patientProfiles[activePatientId], today = parseD(todayISO());
+      const items = p.appts.slice().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+      list.innerHTML = items.length ? items.map(a => {
+        const dd = Math.round((parseD(a.date) - today) / DAYMS), cd = a.done ? 'Done' : dd === 0 ? 'Today' : dd === 1 ? 'Tomorrow' : dd > 0 ? 'in ' + dd + ' days' : Math.abs(dd) + ' days ago';
+        return `<div class="border border-slate-200 rounded-xl p-3 text-xs ${a.done ? 'opacity-60' : ''}"><div class="flex justify-between items-start gap-2"><label class="flex gap-2 cursor-pointer"><input type="checkbox" ${a.done ? 'checked' : ''} onchange="toggleAppt(${a.id})"><span><strong>${escapeHtml(a.type)}</strong><br>${fmtD(parseD(a.date), { weekday: 'short', day: 'numeric', month: 'short' })}${a.time ? ' · ' + a.time : ''}${a.place ? ' · ' + escapeHtml(a.place) : ''}</span></label><span class="font-bold ${!a.done && dd < 0 ? 'text-red-700' : 'text-teal-700'}">${cd}</span></div>
+          <textarea rows="2" oninput="apptNote(${a.id},this.value)" placeholder="Notes: what the doctor said, medicines, next steps..." class="w-full mt-2 border border-slate-200 rounded-lg p-2">${escapeHtml(a.notes || '')}</textarea>
+          <div class="flex gap-3 mt-1"><button onclick="apptICS(${a.id})" class="font-bold text-rose-700">Add to calendar</button><button onclick="delAppt(${a.id})" class="text-slate-400 hover:text-red-600">Delete</button></div></div>`;
+      }).join('') : '<p class="text-xs text-slate-500">No appointments yet.</p>';
+      const soon = items.filter(a => !a.done && Math.round((parseD(a.date) - today) / DAYMS) >= 0 && Math.round((parseD(a.date) - today) / DAYMS) <= 2);
+      const banner = soon.map(a => { const dd = Math.round((parseD(a.date) - today) / DAYMS); return `<div class="p-3 rounded-xl bg-amber-50 border border-amber-300 text-xs font-bold text-amber-900">🔔 ${escapeHtml(p.name)}: ${escapeHtml(a.type)} ${dd === 0 ? 'is today' : dd === 1 ? 'is tomorrow' : 'is in 2 days'}${a.time ? ' at ' + a.time : ''}. Carry reports and the Sakhi summary.</div>`; }).join('');
+      ['appt-alert', 'appt-alert-top'].forEach(i => { const e = document.getElementById(i); if (e) e.innerHTML = banner; });
+      soon.forEach(a => notifyOnce('ap' + a.id, 'Sakhi appointment reminder', `${a.type} on ${fmtD(parseD(a.date))}${a.time ? ' at ' + a.time : ''}`));
+    }
+
+    const TESTS = [
+      { h: 'First trimester (up to 12 weeks)', max: 12, t: [['hb1', 'Hemoglobin / CBC'], ['grp', 'Blood group and Rh factor'], ['uri1', 'Urine routine and culture'], ['sug1', 'Blood sugar'], ['inf', 'HIV, syphilis (VDRL) and Hepatitis B screening'], ['tsh', 'Thyroid (TSH)'], ['us1', 'Dating ultrasound']] },
+      { h: 'Second trimester (13 to 27 weeks)', max: 27, t: [['us2', 'Anomaly scan (18 to 20 weeks)'], ['ogtt', 'Glucose tolerance test (24 to 28 weeks)'], ['hb2', 'Repeat hemoglobin'], ['td', 'Tetanus (Td) vaccination as advised'], ['pro', 'Urine protein check']] },
+      { h: 'Third trimester (28 weeks onward)', max: 99, t: [['us3', 'Growth scan'], ['hb3', 'Repeat hemoglobin and urine routine'], ['gbs', 'Group B strep swab (35 to 37 weeks, if advised)'], ['nst', 'Baby movement or NST check as advised'], ['plan', 'Delivery plan and hospital registration']] }
+    ];
+    function curTri(p) { if (!p.edd) return -1; const w = Math.floor(Math.round((parseD(todayISO()) - parseD(addDaysISO(p.edd, -280))) / DAYMS) / 7); return w < 0 || w > 44 ? -1 : TESTS.findIndex(g => w <= g.max); }
+    function toggleTest(k) { const p = patientProfiles[activePatientId]; if (p.tests[k]) delete p.tests[k]; else p.tests[k] = todayISO(); savePatientProfilesToStorage(); renderTests(); }
+    function renderTests() {
+      const el = document.getElementById('tests-list'); if (!el) return;
+      const p = patientProfiles[activePatientId], ct = curTri(p), all = TESTS.flatMap(g => g.t);
+      document.getElementById('tests-progress').innerText = `${all.filter(t => p.tests[t[0]]).length} of ${all.length} done`;
+      el.innerHTML = TESTS.map((g, i) => `<details class="mb-2 border border-slate-200 rounded-xl p-2" ${i === (ct < 0 ? 0 : ct) ? 'open' : ''}><summary class="text-xs font-bold cursor-pointer">${g.h}${i === ct ? ' · now' : ''}</summary>${g.t.map(t => `<label class="flex items-center gap-2 text-xs py-1 cursor-pointer"><input type="checkbox" ${p.tests[t[0]] ? 'checked' : ''} onchange="toggleTest('${t[0]}')"><span class="${p.tests[t[0]] ? 'line-through text-slate-400' : ''}">${t[1]}</span></label>`).join('')}</details>`).join('');
+    }
+    function summaryExtra(p) {
+      let h = '';
+      const ap = (p.appts || []).slice().sort((a, b) => a.date.localeCompare(b.date));
+      if (ap.length) h += `<div><h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">Appointments &amp; Notes</h3><div class="text-xs space-y-1.5">${ap.slice(-6).map(a => `<p><strong>${fmtD(parseD(a.date), { day: 'numeric', month: 'short', year: 'numeric' })}</strong> · ${escapeHtml(a.type)}${a.done ? ' (done)' : ''}${a.notes ? `<br><span class="text-slate-600">${escapeHtml(a.notes)}</span>` : ''}</p>`).join('')}</div></div>`;
+      const all = TESTS.flatMap(g => g.t), done = all.filter(t => p.tests && p.tests[t[0]]), ct = curTri(p);
+      if (done.length || ct >= 0) {
+        const pend = ct >= 0 ? TESTS[ct].t.filter(t => !(p.tests && p.tests[t[0]])) : [];
+        h += `<div><h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">Tests</h3><div class="text-xs text-slate-700 space-y-1"><p><strong>Done (${done.length}):</strong> ${done.map(t => t[1]).join('; ') || 'none logged'}</p>${pend.length ? `<p><strong>Still due this trimester:</strong> ${pend.map(t => t[1]).join('; ')}</p>` : ''}</div></div>`;
+      }
+      return h;
+    }
+
+    let bpChart = null, wtChart = null;
+    function renderCharts() {
+      if (typeof Chart === 'undefined' || !document.getElementById('mw-bp-chart')) return;
+      const rd = patientProfiles[activePatientId].readings, lab = rd.map(r => r.date.slice(5));
+      [bpChart, wtChart].forEach(c => c && c.destroy());
+      document.getElementById('bp-empty').classList.toggle('hidden', rd.length > 0);
+      const line = (label, data, color, dash) => ({ label, data, borderColor: color, backgroundColor: color, tension: .25, borderDash: dash ? [6, 4] : [], pointRadius: dash ? 0 : 3 });
+      bpChart = new Chart(document.getElementById('mw-bp-chart'), { type: 'line', data: { labels: lab, datasets: [line('Systolic', rd.map(r => r.sys), '#7a3552'), line('Diastolic', rd.map(r => r.dia), '#3e5081'), line('140 limit', rd.map(() => 140), '#dc2626', true), line('90 limit', rd.map(() => 90), '#f59e0b', true)] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { suggestedMin: 60, suggestedMax: 160 } } } });
+      const wr = rd.filter(r => r.weight);
+      document.getElementById('wt-empty').classList.toggle('hidden', wr.length > 0);
+      wtChart = new Chart(document.getElementById('mw-wt-chart'), { type: 'line', data: { labels: wr.map(r => r.date.slice(5)), datasets: [line('Weight (kg)', wr.map(r => +r.weight), '#2f6656')] }, options: { responsive: true, maintainAspectRatio: false } });
+    }
 
     function escapeHtml(str) {
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");

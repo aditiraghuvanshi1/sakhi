@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sakhi - One private companion for every stage of a woman's health</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Font: Plus Jakarta Sans, Noto Sans Devanagari & Noto Sans Kannada -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:wght@500;600;700&display=swap" rel="stylesheet">
+
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            rose: {50: '#f8f1f4', 100: '#efdde4', 200: '#e1c0cd', 300: '#cd97ac', 400: '#b36a86', 500: '#944a68', 600: '#7a3552', 700: '#632b43', 800: '#4d2234', 900: '#3a1a28'},
+            purple: {50: '#f1f3f9', 100: '#e0e5f2', 200: '#c3cde6', 300: '#9aabd2', 400: '#6e82b8', 500: '#4f649c', 600: '#3e5081', 700: '#323f66', 800: '#283250', 900: '#1f273f'},
+            teal: {50: '#eef5f2', 100: '#d8e9e2', 200: '#b4d4c8', 300: '#86b8a7', 400: '#5a9a86', 500: '#3f7d6b', 600: '#2f6656', 700: '#265245', 800: '#1e4137', 900: '#17322b'},
+            roseTone: { 50: '#fff1f2', 100: '#ffe4e6', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c' },
+            tealTone: { 50: '#f0fdf4', 100: '#dcfce7', 600: '#059669', 700: '#047857' },
+            warmPurple: { 50: '#faf5ff', 100: '#f3e8ff', 600: '#9333ea', 700: '#7e22ce' }
+          },
+          fontFamily: {
+            serif: ['Newsreader', 'Georgia', 'serif'],
+            sans: ['Hanken Grotesk', 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+
+  <style>
+    body {
+      font-family: 'Hanken Grotesk', 'Noto Sans Devanagari', 'Noto Sans Kannada', sans-serif;
+      background-color: #f3f4f0;
+      color: #334155;
+    }
+    .card-shadow { box-shadow: none; border-color: #d6dad0 !important; }
+    h1, h2, h3 { font-family: 'Newsreader', Georgia, 'Noto Sans Devanagari', 'Noto Sans Kannada', serif; letter-spacing: -0.01em; }
+    .rounded-2xl { border-radius: 10px !important; } .rounded-3xl { border-radius: 14px !important; } .rounded-xl { border-radius: 7px !important; }
+    .shadow, .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl { box-shadow: none !important; }
+    .animate-bounce { animation: none !important; }
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1d2330; color: #fff; padding: 10px 16px; border-radius: 7px; font-size: 13px; z-index: 80; }
+    @media print { body * { visibility: hidden; } #printable-area, #printable-area * { visibility: visible; } #printable-area { position: absolute; left: 0; top: 0; width: 100%; border: 0 !important; } }
+    .flip-card { perspective: 1000px; }
+    .flip-card-inner { transition: transform 0.6s; transform-style: preserve-3d; }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back { backface-visibility: hidden; }
+    .flip-card-back { transform: rotateY(180deg); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-rose-200">
+
+
+  <!-- TOP DISCLAIMER BAR -->
+  <div class="bg-rose-900 text-rose-100 px-4 py-2 text-xs md:text-sm text-center font-medium flex items-center justify-center gap-2 shadow-sm">
+    <i data-lucide="shield-alert" class="w-4 h-4 text-rose-300"></i>
+    <span id="txt-disclaimer-banner">Medical Disclaimer: Sakhi provides WHO/ICMR grounded health info. It is NOT a substitute for professional doctor diagnosis.</span>
+    <button onclick="toggleEmergencyModal()" class="ml-2 bg-rose-700 hover:bg-rose-600 px-2 py-0.5 rounded text-white text-xs font-semibold underline">Red Flags & Emergency</button>
+  </div>
+
+
+  <!-- HEADER & NAVIGATION -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-rose-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- LOGO & BRAND -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('ask-sakhi')">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-800 p-0.5 shadow-md flex items-center justify-center">
+            <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
+              <i data-lucide="heart-handshake" class="w-6 h-6 text-rose-600"></i>
+            </div>
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+              Sakhi <span class="text-xs px-2 py-0.5 bg-rose-100 text-rose-700 rounded-full font-semibold">सखी / ಸಖಿ</span>
+            </h1>
+            <p class="text-xs text-slate-500 hidden sm:block" id="txt-tagline">One private companion for every stage of a woman’s health</p>
+          </div>
+        </div>
+
+
+        <!-- STAGE SELECTOR & CONTROLS -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          
+          <!-- Life Stage Dropdown -->
+          <div class="relative">
+            <select id="stage-select" onchange="changeLifeStage(this.value)" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2 font-medium focus:ring-2 focus:ring-rose-400 focus:outline-none cursor-pointer">
+              <option value="cycle">🌸 Cycle & Reproductive Years</option>
+              <option value="pregnancy">🤰 Pregnancy (Mother Watch)</option>
+              <option value="menopause">🌿 Perimenopause / Menopause</option>
+            </select>
+          </div>
+
+
+          <!-- Language Selector Dropdown -->
+          <div class="flex items-center gap-1 bg-rose-50 border border-rose-200 rounded-xl px-2 py-1">
+            <i data-lucide="globe" class="w-4 h-4 text-rose-700"></i>
+            <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-transparent text-rose-700 font-semibold text-xs sm:text-sm focus:outline-none cursor-pointer">
+              <option value="en">English</option>
+              <option value="hi">हिंदी (Hindi)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            </select>
+          </div>
+
+
+          <!-- Privacy Badge -->
+          <div class="hidden md:flex items-center gap-1 text-xs text-teal-700 bg-teal-50 px-2.5 py-1.5 rounded-lg font-medium border border-teal-200" title="All data stays on device in LocalStorage">
+            <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+            <span>100% On-Device Anonymous</span>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- MAIN NAVIGATION TABS (NO MODULE PREFIXES) -->
+    <nav class="bg-slate-50/80 border-t border-slate-100 overflow-x-auto no-scrollbar">
+      <div class="max-w-7xl mx-auto px-4 flex gap-1 sm:gap-2 py-2">
+        <button id="nav-ask-sakhi" onclick="switchTab('ask-sakhi')" class="nav-tab text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition whitespace-nowrap bg-rose-600 text-white shadow-sm">
+          <i data-lucide="message-square-heart" class="w-4 h-4"></i>
+          <span id="tab-ask">Ask Sakhi</span>
+        </button>
+
+
+        <button id="nav-cycle-mind" onclick="switchTab('cycle-mind')" class="nav-tab text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition whitespace-nowrap text-slate-600 hover:bg-slate-200">
+          <i data-lucide="calendar-heart" class="w-4 h-4"></i>
+          <span id="tab-cycle">Cycle & Mind</span>
+        </button>
+
+
+        <button id="nav-mother-watch" onclick="switchTab('mother-watch')" class="nav-tab text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition whitespace-nowrap text-slate-600 hover:bg-slate-200">
+          <i data-lucide="baby" class="w-4 h-4"></i>
+          <span id="tab-mother">Mother Watch</span>
+        </button>
+
+
+        <button id="nav-change-companion" onclick="switchTab('change-companion')" class="nav-tab text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition whitespace-nowrap text-slate-600 hover:bg-slate-200">
+          <i data-lucide="sun-medium" class="w-4 h-4"></i>
+          <span id="tab-change">Change Companion</span>
+        </button>
+
+
+        <button id="nav-doctor-summary" onclick="switchTab('doctor-summary')" class="nav-tab text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition whitespace-nowrap text-slate-600 hover:bg-slate-200">
+          <i data-lucide="file-text" class="w-4 h-4"></i>
+          <span id="tab-summary">Doctor Visit Summary</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+
+    <!-- ACTIVE LIFE STAGE BANNER -->
+    <div id="life-stage-banner" class="mb-6 bg-rose-800 rounded-2xl p-4 sm:p-6 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md" id="banner-stage-tag">ACTIVE STAGE</span>
+          <span class="text-xs bg-emerald-400/30 text-emerald-100 border border-emerald-300/40 px-2 py-0.5 rounded" id="banner-privacy-tag">🔒 Private Local Storage</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold mt-2" id="banner-title">Cycle & Reproductive Health Companion</h2>
+        <p class="text-sm text-rose-100 mt-1 max-w-2xl" id="banner-desc">Sakhi is tailored to guide your menstrual wellness, emotional balance, and reproductive decisions.</p>
+      </div>
+      <button onclick="openStageModal()" class="bg-white text-rose-700 hover:bg-rose-50 font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm shadow-sm flex items-center gap-2 transition whitespace-nowrap">
+        <i data-lucide="sliders" class="w-4 h-4"></i>
+        <span id="btn-change-stage">Switch Life Stage</span>
+      </button>
+    </div>
+
+
+    <!-- ========================================================================= -->
+    <!-- ASK SAKHI -->
+    <!-- ========================================================================= -->
+    <section id="sec-ask-sakhi" class="tab-content block space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- LEFT 2 COLUMNS: CHATBOT INTERFACE -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-rose-100 card-shadow flex flex-col h-[640px]">
+          <!-- Chat Header -->
+          <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-rose-50/50 rounded-t-2xl">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-lg shadow">
+                स
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                  <span id="txt-chat-title">Ask Sakhi Health Assistant</span>
+                  <span class="text-[10px] bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded-full">WHO / ICMR Grounded</span>
+                </h3>
+                <p class="text-xs text-slate-500" id="txt-chat-sub">Private, judgment-free answers with explicit guideline citations.</p>
+              </div>
+            </div>
+            <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-rose-600 flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
+            </button>
+          </div>
+
+
+          <!-- Chat Messages Scroll Area -->
+          <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-4 bg-slate-50/30"></div>
+
+
+          <!-- Suggested Quick Prompts -->
+          <div class="p-2 border-t border-slate-100 bg-white flex gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="sendQuickPrompt('Is missing a period normal during stress?')" class="text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 px-3 py-1.5 rounded-full font-medium whitespace-nowrap border border-rose-100">
+              🌸 Stress & Period Delay
+            </button>
+            <button onclick="sendQuickPrompt('What are warning signs of preeclampsia during pregnancy?')" class="text-xs bg-purple-50 text-purple-700 hover:bg-purple-100 px-3 py-1.5 rounded-full font-medium whitespace-nowrap border border-purple-100">
+              🤰 Preeclampsia Warning Signs
+            </button>
+            <button onclick="sendQuickPrompt('How do I manage hot flashes in perimenopause?')" class="text-xs bg-teal-50 text-teal-700 hover:bg-teal-100 px-3 py-1.5 rounded-full font-medium whitespace-nowrap border border-teal-100">
+              🌿 Perimenopause Hot Flashes
+            </button>
+          </div>
+
+
+          <!-- Chat Input Area -->
+          <div class="p-3 border-t border-slate-200 bg-white rounded-b-2xl flex items-center gap-2">
+            <button id="voice-btn" onclick="toggleVoiceInput()" class="p-3 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition flex-shrink-0" title="Voice Input (Hindi/Kannada/English)">
+              <i data-lucide="mic" class="w-5 h-5"></i>
+            </button>
+            <input id="chat-input" type="text" placeholder="Ask anything (e.g., period pain, contraception, menopause)..." class="flex-grow border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400" onkeypress="handleChatKeyPress(event)">
+            <button onclick="handleSendMessage()" class="bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl transition flex-shrink-0 shadow-sm">
+              <i data-lucide="send" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+
+        <!-- RIGHT 1 COLUMN: EXPANDED MYTH BUSTERS & CLINIC FINDER -->
+        <div class="space-y-6">
+          
+          <!-- MYTH VS FACT CARDS (EXPANDED LIST) -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 card-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-purple-600"></i>
+                <span id="txt-myth-title">Myth vs Fact Flip Cards</span>
+              </h3>
+              <span class="text-xs text-slate-400">Click Card to Flip</span>
+            </div>
+
+
+            <!-- Interactive Flip Cards Container -->
+            <div id="myth-cards-container" class="space-y-4 max-h-[380px] overflow-y-auto pr-1"></div>
+          </div>
+
+
+          <!-- NEAREST CLINIC & TELEHEALTH FINDER -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 card-shadow">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-3">
+              <i data-lucide="map-pin" class="w-5 h-5 text-teal-600"></i>
+              <span id="txt-clinic-title">Verified Clinics & Telehealth (India)</span>
+            </h3>
+            
+            <div class="space-y-3">
+              <div>
+                <label class="text-xs font-semibold text-slate-600">Filter Location:</label>
+                <select id="clinic-city" onchange="filterClinics()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium focus:ring-2 focus:ring-teal-400 focus:outline-none">
+                  <option value="all">All Locations / National Telehealth</option>
+                  <option value="delhi">Delhi NCR</option>
+                  <option value="mumbai">Mumbai / Maharashtra</option>
+                  <option value="bengaluru">Bengaluru / Karnataka</option>
+                  <option value="mp">Madhya Pradesh (Bhopal/Indore/Dewas)</option>
+                </select>
+              </div>
+
+
+              <div id="clinic-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- CYCLE & MIND (UPDATED WITH 3-MONTH RETENTION & REAL SUMMARY) -->
+    <!-- ========================================================================= -->
+    <section id="sec-cycle-mind" class="tab-content hidden space-y-6">
+      
+      <!-- TOP STATUS & CALCULATOR CARD -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- PERIOD DATE & CALCULATED PHASE -->
+        <div class="bg-white p-5 rounded-2xl border border-rose-100 card-shadow">
+          <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-3">
+            <i data-lucide="calendar" class="w-5 h-5 text-rose-600"></i>
+            <span>Cycle Phase Calculator</span>
+          </h3>
+          <div class="space-y-3">
+            <div>
+              <label class="text-xs font-medium text-slate-600">Last Period Start Date:</label>
+              <input type="date" id="cycle-last-date" oninput="calculateCyclePhase()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-600">Average Cycle Length (Days):</label>
+              <input type="number" id="cycle-length" value="28" min="20" max="45" oninput="calculateCyclePhase()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
+            </div>
+            
+            <div>
+              <label class="text-xs font-medium text-slate-600">Usual Period Length (Days):</label>
+              <input type="number" id="period-length" value="5" min="2" max="10" oninput="calculateCyclePhase()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
+            </div>
+            <!-- Result Box -->
+            <div id="cycle-phase-result" class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-center">
+              <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">CURRENT ESTIMATED PHASE</span>
+              <span id="txt-current-phase" class="text-lg font-extrabold text-rose-800">Follicular Phase (Day 8)</span>
+              <p id="txt-phase-desc" class="text-xs text-slate-600 mt-1">Estrogen rising. Energy and focus tend to increase.</p>
+            </div>
+            <div id="cycle-extra" class="space-y-3"></div>
+          </div>
+        </div>
+
+
+        <!-- 30-SEC DAILY CHECK-IN -->
+        <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+          <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-1">
+            <i data-lucide="activity" class="w-5 h-5 text-purple-600"></i>
+            <span>Daily Mind & Body Check-in (Saved up to 90 Days)</span>
+          </h3>
+          <p class="text-xs text-slate-500 mb-4">Rate how you feel today. Logged data updates your 3-month analytics and doctor report.</p>
+
+
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <!-- Mood -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
+              <label class="text-xs font-bold text-slate-700 block mb-1">Mood</label>
+              <select id="log-mood" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
+                <option value="5">😄 Great</option>
+                <option value="4">🙂 Calm</option>
+                <option value="3" selected>😐 Neutral</option>
+                <option value="2">😔 Anxious</option>
+                <option value="1">😫 Low / Irritable</option>
+              </select>
+            </div>
+            <!-- Sleep -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
+              <label class="text-xs font-bold text-slate-700 block mb-1">Sleep</label>
+              <select id="log-sleep" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
+                <option value="5">😴 Restful (8h+)</option>
+                <option value="3" selected>😐 Average (6-7h)</option>
+                <option value="1">🥱 Poor (&lt;5h)</option>
+              </select>
+            </div>
+            <!-- Stress -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
+              <label class="text-xs font-bold text-slate-700 block mb-1">Stress</label>
+              <select id="log-stress" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
+                <option value="1">🧘 Low</option>
+                <option value="3" selected>⚖️ Moderate</option>
+                <option value="5">🚨 High</option>
+              </select>
+            </div>
+            <!-- Energy -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
+              <label class="text-xs font-bold text-slate-700 block mb-1">Energy</label>
+              <select id="log-energy" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
+                <option value="5">⚡ High</option>
+                <option value="3" selected>🔋 Normal</option>
+                <option value="1">🪫 Exhausted</option>
+              </select>
+            </div>
+            <!-- Pain -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center col-span-2 sm:col-span-1">
+              <label class="text-xs font-bold text-slate-700 block mb-1">Cramps / Pain</label>
+              <select id="log-pain" class="w-full border border-slate-200 rounded-lg p-1.5 text-xs font-semibold">
+                <option value="0" selected>👌 None</option>
+                <option value="2">⚡ Mild</option>
+                <option value="5">💥 Severe</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="mt-4 flex flex-wrap justify-between items-center gap-2">
+            <button onclick="saveDailyCheckIn()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-2 rounded-xl text-xs sm:text-sm shadow-sm transition">
+              Save Today's Check-in
+            </button>
+            <span id="checkin-save-msg" class="text-xs text-emerald-600 font-semibold hidden">✓ Logged into 90-day history & summary!</span>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <!-- REAL-TIME LOGGED SUMMARY CARD & CHART -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- REAL DYNAMIC CHART & SUMMARY METRICS -->
+        <div class="lg:col-span-2 space-y-4">
+          
+          <!-- 30/90-DAY METRIC SUMMARY CARDS -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-rose-50 border border-rose-100 p-3 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-extrabold text-rose-600 tracking-wider">Total Check-ins</span>
+              <span id="stat-total-logs" class="text-xl font-extrabold text-rose-900 block mt-1">0</span>
+              <span class="text-[10px] text-slate-500">Up to 90 Days</span>
+            </div>
+            <div class="bg-purple-50 border border-purple-100 p-3 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-extrabold text-purple-600 tracking-wider">Avg Mood Score</span>
+              <span id="stat-avg-mood" class="text-xl font-extrabold text-purple-900 block mt-1">--</span>
+              <span class="text-[10px] text-slate-500">Scale 1-5</span>
+            </div>
+            <div class="bg-teal-50 border border-teal-100 p-3 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-extrabold text-teal-600 tracking-wider">Avg Sleep</span>
+              <span id="stat-avg-sleep" class="text-xl font-extrabold text-teal-900 block mt-1">--</span>
+              <span class="text-[10px] text-slate-500">Scale 1-5</span>
+            </div>
+            <div class="bg-amber-50 border border-amber-100 p-3 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-extrabold text-amber-600 tracking-wider">Severe Pain Days</span>
+              <span id="stat-pain-days" class="text-xl font-extrabold text-amber-900 block mt-1">0</span>
+              <span class="text-[10px] text-slate-500">Logged Cramps</span>
+            </div>
+          </div>
+
+
+          <!-- DYNAMIC CHART -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="font-bold text-slate-800">Your Real Logged Trends (Mood & Sleep)</h3>
+                <p class="text-xs text-slate-500">Updates live as you log check-ins over time</p>
+              </div>
+              <button onclick="loadDemoCycleData()" class="text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg text-slate-600 font-medium">Load Sample 14-Day Data</button>
+            </div>
+            <div class="relative h-64 w-full">
+              <canvas id="cycleChart"></canvas>
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <!-- PMDD & POSTPARTUM RISK ALERTS -->
+        <div class="space-y-4">
+          
+          <!-- PMDD ALERT CARD WITH INTERACTIVE GUIDELINE MODAL TRIGGER -->
+          <div id="pmdd-alert-card" class="bg-amber-50 border border-amber-200 p-4 rounded-2xl">
+            <div class="flex items-start gap-3">
+              <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"></i>
+              <div>
+                <h4 class="font-bold text-amber-900 text-sm">PMDD Pattern Alert</h4>
+                <p class="text-xs text-amber-800 mt-1">If severe mood dips or rage occur repeatedly 7–10 days before your period, it may indicate PMDD.</p>
+                <button onclick="openPMDDModal()" class="mt-3 text-xs font-bold text-amber-900 bg-amber-200 hover:bg-amber-300 px-3 py-1.5 rounded-lg inline-flex items-center gap-1 transition">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Read Interactive PMDD Clinical Guide →
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- POSTPARTUM MOOD SCREENER (10 questions, scored) -->
+          <div class="bg-white border border-rose-100 p-4 rounded-2xl card-shadow">
+            <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+              <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
+              <span>Postpartum Mood Screener</span>
+            </h4>
+            <p class="text-xs text-slate-500 mt-1">Ten questions about the past 7 days, based on the Edinburgh Postnatal Depression Scale. It flags who should talk to a doctor. It does not diagnose.</p>
+            <p class="text-[11px] text-slate-500 mt-1">Saving result to: <strong id="epds-patient">Self Profile</strong></p>
+            <div id="epds-form" class="mt-3 space-y-3 text-xs"></div>
+            <div class="flex gap-2 mt-3">
+              <button onclick="checkPostpartumScreening()" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold py-2 rounded-xl transition">See my score</button>
+              <button onclick="renderEpds()" class="px-3 border border-slate-300 text-slate-600 text-xs font-bold rounded-xl">Reset</button>
+            </div>
+            <div id="pp-result" class="mt-2 text-xs hidden"></div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- MOTHER WATCH (FULLY DYNAMIC & REAL MULTI-PATIENT LOGGING) -->
+    <!-- ========================================================================= -->
+    <section id="sec-mother-watch" class="tab-content hidden space-y-6">
+      
+      <!-- HEALTH WORKER MODE TOGGLE & PATIENT SELECTOR -->
+      <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-teal-600 text-white rounded-xl">
+            <i data-lucide="users" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-teal-900 text-sm">Health Worker & Personal Pregnancy Log</h4>
+            <p class="text-xs text-teal-700">Add custom patient profiles with independent data saved to LocalStorage.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <select id="patient-select" onchange="switchPatientProfile(this.value)" class="bg-white border border-teal-300 text-slate-800 text-xs font-bold rounded-xl px-3 py-2 focus:ring-2 focus:ring-teal-500">
+            <!-- Dynamically populated -->
+          </select>
+          <button onclick="addNewPatientPrompt()" class="bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap shadow-sm">
+            + New Patient Profile
+          </button>
+        </div>
+      </div>
+
+
+      <!-- PREGNANCY PROFILE & RISK STATUS ENGINE -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- LEFT: DUE DATE & VITAL LOGGERS -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+              <i data-lucide="clipboard-list" class="w-5 h-5 text-rose-600"></i>
+              <span>Vitals & Risk Entry</span>
+            </h3>
+            <span id="active-profile-badge" class="text-[10px] bg-purple-100 text-purple-800 font-extrabold px-2 py-0.5 rounded-full">Self Profile</span>
+          </div>
+
+
+          <div>
+            <label class="text-xs font-bold text-slate-600">Estimated Due Date (EDD):</label>
+            <input type="date" id="preg-edd" onchange="calculateTrimester()" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold">
+            <div id="trimester-badge" class="mt-2 text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100">
+              Trimester: Select EDD date above
+            </div>
+          </div>
+
+
+          <!-- Vital Inputs -->
+          <div class="space-y-3 pt-2 border-t border-slate-100">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-xs font-medium text-slate-600">Systolic BP (mmHg):</label>
+                <input type="number" id="vital-sys" placeholder="e.g. 120" class="w-full border border-slate-200 rounded-xl p-2 text-xs font-semibold">
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-600">Diastolic BP (mmHg):</label>
+                <input type="number" id="vital-dia" placeholder="e.g. 80" class="w-full border border-slate-200 rounded-xl p-2 text-xs font-semibold">
+              </div>
+            </div>
+
+
+            <div>
+              <label class="text-xs font-medium text-slate-600">Weight (kg):</label>
+              <input type="number" id="vital-weight" placeholder="e.g. 62.5" step="0.5" class="w-full border border-slate-200 rounded-xl p-2 text-xs font-semibold">
+            </div>
+
+
+            <!-- Warning Checkboxes -->
+            <div class="space-y-1.5 pt-2">
+              <span class="text-xs font-bold text-slate-700 block">Symptom Check:</span>
+              <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                <input type="checkbox" id="chk-headache" class="rounded text-rose-600">
+                <span>Severe or Persistent Headache</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                <input type="checkbox" id="chk-vision" class="rounded text-rose-600">
+                <span>Blurry vision / Seeing spots</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                <input type="checkbox" id="chk-swelling" class="rounded text-rose-600">
+                <span>Sudden swelling in hands or face</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                <input type="checkbox" id="chk-movement" class="rounded text-rose-600">
+                <span>Decreased fetal baby movement</span>
+              </label>
+            </div>
+
+
+            <button onclick="saveAndEvaluateMotherWatch()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm shadow-sm transition">
+              Save Today&#39;s Reading
+            </button>
+          </div>
+        </div>
+
+
+        <!-- RIGHT: TRI-COLOR RISK STATUS DISPLAY -->
+        <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 card-shadow flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-slate-800 text-lg flex items-center justify-between">
+              <span>Maternal Risk Triage</span>
+              <span class="text-xs font-normal text-slate-400">WHO / ICMR Triage Protocol</span>
+            </h3>
+
+
+            <!-- STATUS BOX ENGINE -->
+            <div id="risk-status-card" class="mt-4 p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-300 transition-all">
+              <div class="flex items-start gap-4">
+                <div id="risk-status-icon" class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-2xl flex-shrink-0">
+                  ✓
+                </div>
+                <div>
+                  <span id="risk-status-level" class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-md">
+                    GREEN STATUS - NORMAL
+                  </span>
+                  <h4 id="risk-status-title" class="text-lg font-extrabold text-emerald-950 mt-2">All Logged Vitals Are Within Normal Range</h4>
+                  <p id="risk-status-action" class="text-sm text-emerald-900 mt-1">Continue routine antenatal care check-ups and daily iron-folic acid tablets as advised by your doctor.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- RED FLAG RULES RECAP -->
+            <div class="mt-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2">Clinical Warning Thresholds:</h4>
+              <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
+                <li><strong>Red Status Trigger:</strong> Systolic BP ≥ 140 or Diastolic BP ≥ 90 mmHg OR BP ≥ 130/80 with severe headache / vision changes. Requires urgent hospital evaluation.</li>
+                <li><strong>Amber Status Trigger:</strong> Weight gain &gt; 2kg in a week, mild leg swelling, or missed tests. Schedule visit within 48 hours.</li>
+                <li><strong>Baby Movement:</strong> Fewer than 10 kicks in 2 hours during third trimester requires immediate clinical assessment.</li>
+              </ul>
+            </div>
+          </div>
+
+
+          <!-- APPOINTMENT & TEST REMINDERS -->
+          <div class="mt-6 border-t border-slate-100 pt-4">
+            <h4 class="font-bold text-slate-800 text-xs mb-2">Trimester Clinical Milestones:</h4>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+              <div class="p-2 bg-rose-50 rounded-lg text-rose-800 font-semibold border border-rose-100">
+                1st Trim: Dating Ultrasound & Blood Test
+              </div>
+              <div class="p-2 bg-purple-50 rounded-lg text-purple-800 font-semibold border border-purple-100">
+                2nd Trim: Anomaly Scan & Glucose Test
+              </div>
+              <div class="p-2 bg-teal-50 rounded-lg text-teal-800 font-semibold border border-teal-100">
+                3rd Trim: Growth Scan & GBS Test
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    
+      <!-- READINGS HISTORY FOR ACTIVE PATIENT -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h3 class="font-bold text-slate-800">Readings for <span id="mw-name">Self Profile</span></h3>
+          <div class="flex gap-2">
+            <button onclick="openSummaryFor(activePatientId)" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-2 rounded-xl">Doctor summary for this patient</button>
+            <button id="mw-delete" onclick="deleteActivePatient()" class="border border-red-300 text-red-700 text-xs font-bold px-3 py-2 rounded-xl">Delete patient</button>
+          </div>
+        </div>
+        <div id="mw-history" class="overflow-x-auto"></div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- CHANGE COMPANION (PERIMENOPAUSE & MENOPAUSE - FULLY INTERACTIVE) -->
+    <!-- ========================================================================= -->
+    <section id="sec-change-companion" class="tab-content hidden space-y-6">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- HOT FLASH & SYMPTOM LOGGERS -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow space-y-4">
+          <h3 class="font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="flame" class="w-5 h-5 text-orange-500"></i>
+            <span>Perimenopause Daily Tracker</span>
+          </h3>
+
+
+          <div class="space-y-3">
+            <div>
+              <label class="text-xs font-bold text-slate-600">Hot Flashes Today (Count):</label>
+              <div class="flex items-center gap-3 mt-1">
+                <button onclick="changeFlashCount(-1)" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">-</button>
+                <span id="flash-count" class="text-lg font-extrabold text-orange-600 w-8 text-center">0</span>
+                <button onclick="changeFlashCount(1)" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">+</button>
+              </div>
+            </div>
+
+
+            <div>
+              <label class="text-xs font-bold text-slate-600">Night Sweats / Sleep Disruption:</label>
+              <select id="log-sweats" onchange="updateMenoPattern()" class="w-full mt-1 border border-slate-200 rounded-xl p-2 text-xs font-semibold">
+                <option value="none">None</option>
+                <option value="mild">Mild (Woke up once)</option>
+                <option value="severe">Severe (Drenched, ruined sleep)</option>
+              </select>
+            </div>
+
+
+            <div>
+              <label class="text-xs font-bold text-slate-600">Brain Fog / Memory Slip:</label>
+              <select id="log-fog" onchange="updateMenoPattern()" class="w-full mt-1 border border-slate-200 rounded-xl p-2 text-xs font-semibold">
+                <option value="low">Low / Normal</option>
+                <option value="moderate">Moderate (Forgetting words/keys)</option>
+                <option value="high">High (Difficulty focusing at work)</option>
+              </select>
+            </div>
+
+
+            <div>
+              <label class="text-xs font-bold text-slate-600">Cycle Irregularity:</label>
+              <select id="log-meno-cycle" onchange="updateMenoPattern()" class="w-full mt-1 border border-slate-200 rounded-xl p-2 text-xs font-semibold">
+                <option value="regular">Regular Cycle</option>
+                <option value="skipped">Skipped 1-2 periods</option>
+                <option value="no-period">No period for 6+ months</option>
+                <option value="menopause">No period for 12+ consecutive months</option>
+              </select>
+            </div>
+
+
+            <button onclick="saveMenopauseLog()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 rounded-xl text-xs sm:text-sm shadow-sm transition">
+              Save Change Log & Sync Report
+            </button>
+          </div>
+        </div>
+
+
+        <!-- DYNAMIC SYMPTOM PATTERN CARDS & SCREENING CHECKLIST -->
+        <div class="lg:col-span-2 space-y-6">
+          
+          <!-- PATTERN CARD (DYNAMICALLY UPDATED) -->
+          <div id="meno-pattern-card" class="bg-rose-800 border border-purple-200 p-5 rounded-2xl">
+            <div class="flex items-start gap-3">
+              <i data-lucide="sparkles" class="w-6 h-6 text-purple-600 flex-shrink-0 mt-0.5"></i>
+              <div>
+                <h4 class="font-bold text-purple-900">Dynamic Symptom Pattern Insight</h4>
+                <p id="meno-pattern-text" class="text-xs text-purple-950 mt-1 leading-relaxed">
+                  Adjust your symptoms above to see tailored evidence-based insights.
+                </p>
+                <div class="mt-3 flex flex-wrap gap-2" id="meno-insight-tags">
+                  <span class="text-[11px] bg-white text-purple-800 font-bold px-2.5 py-1 rounded-md border border-purple-200">Calcium & Vit D3 Recommended</span>
+                  <span class="text-[11px] bg-white text-purple-800 font-bold px-2.5 py-1 rounded-md border border-purple-200">Cooling Sleep Hygiene</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- AGE-BASED SCREENING CHECKLIST (INTERACTIVE PROGRESS) -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="check-square" class="w-5 h-5 text-teal-600"></i>
+                <span>Preventive Health Screenings Tracker</span>
+              </h3>
+              <span id="screening-progress" class="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">0 of 3 Done</span>
+            </div>
+
+
+            <div class="space-y-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-xs text-slate-800">Mammogram (Breast Screening)</h4>
+                  <p class="text-[11px] text-slate-500">Recommended every 1–2 years for women aged 40–74.</p>
+                </div>
+                <button onclick="toggleScreening(this, 'mammogram')" class="screening-btn px-3 py-1 bg-teal-100 text-teal-800 text-xs font-bold rounded-lg hover:bg-teal-200">Due / Done?</button>
+              </div>
+
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-xs text-slate-800">Pap Smear / HPV Screening</h4>
+                  <p class="text-[11px] text-slate-500">Cervical screening every 3–5 years up to age 65.</p>
+                </div>
+                <button onclick="toggleScreening(this, 'pap')" class="screening-btn px-3 py-1 bg-teal-100 text-teal-800 text-xs font-bold rounded-lg hover:bg-teal-200">Due / Done?</button>
+              </div>
+
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-xs text-slate-800">Bone Density DEXA Scan</h4>
+                  <p class="text-[11px] text-slate-500">Baseline bone scan recommended at menopause/age 50+ to prevent osteoporosis.</p>
+                </div>
+                <button onclick="toggleScreening(this, 'dexa')" class="screening-btn px-3 py-1 bg-teal-100 text-teal-800 text-xs font-bold rounded-lg hover:bg-teal-200">Due / Done?</button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- DOCTOR VISIT SUMMARY (LIVE DYNAMIC REPORT WITH SELF-EDITABLE NOTES) -->
+    <!-- ========================================================================= -->
+    <section id="sec-doctor-summary" class="tab-content hidden space-y-6">
+      
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Doctor Visit Summary Report</h2>
+          <p class="text-xs text-slate-500">1-Page organized medical summary of your logged health data and custom doctor notes.</p>
+        </div>
+        <div class="flex items-center gap-2"><select id="doc-patient-select" onchange="summaryPatientId=this.value;updateDoctorSummaryReport()" class="border border-slate-300 bg-white rounded-xl px-3 py-2 text-xs font-bold"></select>
+        <button onclick="printDoctorSummary()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-2">
+          <i data-lucide="printer" class="w-4 h-4"></i> Print / Save PDF
+        </button></div>
+      </div>
+
+
+      <!-- PRINTABLE SUMMARY CONTAINER -->
+      <div id="printable-area" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 card-shadow space-y-6 max-w-4xl mx-auto">
+        
+        <!-- Header -->
+        <div class="border-b border-slate-200 pb-4 flex justify-between items-start">
+          <div>
+            <h1 class="text-2xl font-extrabold text-rose-700">Sakhi Patient Health Log</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Anonymous Local Device Export • WHO/ICMR Format Compliant</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-bold text-slate-700 block">Date Generated:</span>
+            <span id="doc-summary-date" class="text-xs text-slate-500">Today</span>
+          </div>
+        </div>
+
+
+        <!-- Life Stage & Active Profile -->
+        <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl">
+          <div>
+            <span class="font-bold text-slate-700 block">Current Life Stage:</span>
+            <span id="doc-stage-name" class="text-slate-900 font-semibold">Cycle Years</span>
+          </div>
+          <div>
+            <span class="font-bold text-slate-700 block">Profile Identifier:</span>
+            <span id="doc-profile-id" class="text-slate-900 font-semibold">Self Log (Private)</span>
+          </div>
+        </div>
+
+
+        <!-- Logged Vitals & Symptoms Summary Grid -->
+        <div>
+          <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">1. Vitals & Logged Metrics</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="bg-rose-50/50 p-2.5 rounded-lg border border-rose-100">
+              <span class="text-slate-500 block">Logged BP / Vitals</span>
+              <span id="doc-vitals-val" class="font-bold text-rose-800">120/80 mmHg</span>
+            </div>
+            <div class="bg-purple-50/50 p-2.5 rounded-lg border border-purple-100">
+              <span class="text-slate-500 block">Avg Mood / Check-ins</span>
+              <span id="doc-mood-val" class="font-bold text-purple-800">Neutral</span>
+            </div>
+            <div class="bg-teal-50/50 p-2.5 rounded-lg border border-teal-100">
+              <span class="text-slate-500 block">Cycle Status</span>
+              <span id="doc-cycle-val" class="font-bold text-teal-800">Follicular Phase</span>
+            </div>
+            <div class="bg-orange-50/50 p-2.5 rounded-lg border border-orange-100">
+              <span class="text-slate-500 block">Change Symptoms</span>
+              <span id="doc-change-val" class="font-bold text-orange-800">Hot flashes: 0/day</span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Red Flag Safety & Risk Status -->
+        <div>
+          <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">2. Risk Triage Status</h3>
+          <div id="doc-risk-badge" class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 font-semibold">
+            ✓ GREEN STATUS: No urgent preeclampsia or severe crisis red flags detected in current entries.
+          </div>
+        </div>
+
+
+        <div id="doc-patient-detail"></div>
+
+        <!-- SELF UPDATABLE NOTES SECTION -->
+        <div>
+          <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1 flex justify-between items-center">
+            <span>3. Patient Notes & Questions for Doctor</span>
+            <span class="text-[10px] font-normal text-slate-400">Self-Updatable • Auto-Saved</span>
+          </h3>
+          <textarea id="doc-user-notes" oninput="saveDoctorNotes()" rows="4" placeholder="Type specific symptoms, medicines taken, or questions you want to ask your gynecologist/doctor..." class="w-full border border-slate-200 rounded-xl p-3 text-xs focus:ring-2 focus:ring-rose-400 focus:outline-none bg-slate-50/50"></textarea>
+        </div>
+
+
+        <!-- Suggested Questions to Ask Doctor -->
+        <div>
+          <h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">4. Standard Clinical Discussion Questions</h3>
+          <ul class="text-xs text-slate-700 space-y-1.5 list-disc pl-5">
+            <li>"Are my current symptom patterns normal for my specific cycle / life stage?"</li>
+            <li>"Should we consider routine blood tests for Hemoglobin (Hb), Vitamin D3, or Thyroid (TSH)?"</li>
+            <li>"What preventive screening schedule (Mammogram / Pap smear / DEXA) do you recommend for me this year?"</li>
+          </ul>
+        </div>
+
+
+        <!-- Footer Notes -->
+        <div class="border-t border-slate-200 pt-3 text-[10px] text-slate-400 text-center">
+          Generated via Sakhi Women's Health Companion • Patient self-report tool for clinical discussion support.
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+
+  <!-- INTERACTIVE PMDD CLINICAL GUIDANCE MODAL -->
+  <div id="modal-pmdd" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-amber-200 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-lg font-extrabold text-amber-900 flex items-center gap-2">
+          <i data-lucide="book-open" class="w-5 h-5 text-amber-600"></i> PMDD Clinical Guidance (ACOG/DSM-5)
+        </h3>
+        <button onclick="closePMDDModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+      </div>
+
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Premenstrual Dysphoric Disorder (PMDD) is a severe, neurobiological reaction to natural hormone fluctuations during the luteal phase (7–14 days before menstruation).
+      </p>
+
+
+      <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 space-y-2 text-xs">
+        <h4 class="font-bold text-amber-950 uppercase text-[11px] tracking-wider">Key Diagnostic Criteria (Must clear post-period):</h4>
+        <ul class="list-disc pl-4 space-y-1 text-amber-900">
+          <li>Marked mood swings, sudden sadness, or intense tearfulness</li>
+          <li>Persistent, severe irritability, anger, or interpersonal conflicts</li>
+          <li>Marked anxiety, tension, or feeling "on edge"</li>
+          <li>Loss of interest in daily activities, fatigue, or sleep changes</li>
+        </ul>
+      </div>
+
+
+      <div class="space-y-2 text-xs">
+        <h4 class="font-bold text-slate-800">Evidence-Based Management Steps:</h4>
+        <p class="text-slate-600">1. <strong>Cycle Logging:</strong> Keep daily mood logs for 2–3 consecutive cycles to confirm timing.</p>
+        <p class="text-slate-600">2. <strong>Lifestyle Support:</strong> Aerobic exercise, reduced caffeine/alcohol, and Calcium/Vitamin B6 supplementation under supervision.</p>
+        <p class="text-slate-600">3. <strong>Medical Options:</strong> Consult your doctor regarding SSRIs or specific oral contraceptives approved for PMDD.</p>
+      </div>
+
+
+      <div class="pt-2 flex flex-col sm:flex-row gap-2">
+        <a href="tel:14416" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl text-xs text-center shadow transition flex items-center justify-center gap-1">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i> Tele-MANAS Helpline (14416)
+        </a>
+        <button onclick="closePMDDModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">
+          Close Guide
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- EMERGENCY RED FLAG MODAL -->
+  <div id="modal-emergency" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-red-500 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-lg font-extrabold text-red-700 flex items-center gap-2">
+          <i data-lucide="siren" class="w-6 h-6"></i> Red Flag Medical Alert
+        </h3>
+        <button onclick="toggleEmergencyModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+      </div>
+
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        If you or someone you are assisting experiences any of the following symptoms, <strong>do not wait</strong>. Seek immediate hospital emergency care:
+      </p>
+
+
+      <div class="bg-red-50 p-3 rounded-xl text-xs text-red-950 space-y-1.5 border border-red-200 font-medium">
+        <p>🚨 BP ≥ 140/90 with severe headache or vision loss (Pregnancy)</p>
+        <p>🚨 Sudden severe abdominal pain or heavy soak-through bleeding</p>
+        <p>🚨 Thoughts of self-harm or hurting the baby (Postpartum Crisis)</p>
+        <p>🚨 Chest pain, difficulty breathing, or sudden one-sided swelling</p>
+      </div>
+
+
+      <div class="space-y-2">
+        <a href="tel:108" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl text-sm flex items-center justify-center gap-2 shadow">
+          <i data-lucide="phone-call" class="w-4 h-4"></i> Call Emergency Helpline (108 / 112)
+        </a>
+        <button onclick="toggleEmergencyModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs">
+          Close Safeguard Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- LIFE STAGE SELECTOR MODAL -->
+  <div id="modal-stage" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-xl border border-rose-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-lg font-bold text-slate-900">Choose Your Life Stage</h3>
+        <button onclick="closeStageModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+      </div>
+      
+      <p class="text-xs text-slate-500">Sakhi will reshape its layout and focus to match your current journey.</p>
+
+
+      <div class="space-y-3">
+        <button onclick="selectStageFromModal('cycle')" class="w-full p-4 rounded-2xl border-2 border-rose-200 hover:border-rose-500 bg-rose-50/50 text-left transition flex items-center gap-3">
+          <span class="text-2xl">🌸</span>
+          <div>
+            <h4 class="font-bold text-sm text-slate-800">Cycle & Reproductive Years</h4>
+            <p class="text-xs text-slate-500">Period tracking, ovulation, contraception, and PMS/PMDD mood tracking.</p>
+          </div>
+        </button>
+
+
+        <button onclick="selectStageFromModal('pregnancy')" class="w-full p-4 rounded-2xl border-2 border-purple-200 hover:border-purple-500 bg-purple-50/50 text-left transition flex items-center gap-3">
+          <span class="text-2xl">🤰</span>
+          <div>
+            <h4 class="font-bold text-sm text-slate-800">Pregnancy (Mother Watch)</h4>
+            <p class="text-xs text-slate-500">Preeclampsia monitoring, trimester check-ups, and health worker multi-patient log.</p>
+          </div>
+        </button>
+
+
+        <button onclick="selectStageFromModal('menopause')" class="w-full p-4 rounded-2xl border-2 border-teal-200 hover:border-teal-500 bg-teal-50/50 text-left transition flex items-center gap-3">
+          <span class="text-2xl">🌿</span>
+          <div>
+            <h4 class="font-bold text-sm text-slate-800">Perimenopause & Menopause</h4>
+            <p class="text-xs text-slate-500">Hot flash tracking, bone density screenings, and evidence-based self care.</p>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JAVASCRIPT LOGIC ENGINE -->
+  <script>
+    // =========================================================================
+    // STATE MANAGEMENT & DICTIONARIES
+    // =========================================================================
+    let currentLang = 'en'; // 'en', 'hi', or 'kn'
+    let currentStage = 'cycle'; 
+    let activePatientId = 'default';
+    let hotFlashCount = 0;
+    let cycleChartInstance = null;
+    let isListening = false;
+    let screeningStatus = { mammogram: false, pap: false, dexa: false };
+
+
+    // MULTI-PATIENT IN-MEMORY / STORAGE MAP FOR MOTHER WATCH
+    let patientProfiles = {
+      'default': { name: 'Self Profile', edd: '', sys: '', dia: '', weight: '', headache: false, vision: false, swelling: false, movement: false }
+    };
+
+
+    // GROUNDED KNOWLEDGE BASE WITH ENGLISH, HINDI, AND KANNADA
+    const kbData = [
+      {
+        keywords: ['stress', 'delay', 'late', 'missed', 'period', 'irregular', 'तनाव', 'विलंब', 'ಆತಂಕ', 'ತಡ'],
+        answer_en: "Stress triggers cortisol, which can disrupt the hypothalamic-pituitary-ovarian axis and delay ovulation. A missed period occasionally due to high stress is common.",
+        answer_hi: "तनाव से कोर्टिसोल हार्मोन बढ़ता है, जो ओव्यूलेशन (अंडे के बनने) में देरी कर सकता है। अत्यधिक तनाव के कारण कभी-कभार पीरियड में देरी होना एक सामान्य बात है।",
+        answer_kn: "ಒತ್ತಡವು ಕಾರ್ಟಿಸಾಲ್ ಹಾರ್ಮೋನ್ ಹೆಚ್ಚಿಸುತ್ತದೆ, ಇದು ಅಂಡೋತ್ಪತ್ತಿಯನ್ನು ತಡಗೊಳಿಸಬಹುದು. ತೀವ್ರ ಒತ್ತಡದಿಂದ ಅಪರೂಪಕ್ಕೆ ಮುಟ್ಟು ತಡವಾಗುವುದು ಸಾಮಾನ್ಯ.",
+        citation: "WHO Reproductive Health Guidelines, Section 3.2 & ICMR Guidelines"
+      },
+      {
+        keywords: ['preeclampsia', 'bp', 'pressure', 'headache', 'swelling', 'pregnant', 'गर्भावस्था', 'बीपी', 'ರಕ್ತದೊತ್ತಡ'],
+        answer_en: "Preeclampsia is marked by high blood pressure (≥140/90 mmHg) after 20 weeks of pregnancy. Warning signs include severe headaches, blurry vision, and facial swelling.",
+        answer_hi: "प्री-एक्लेमप्सिया गर्भावस्था के 20 सप्ताह बाद उच्च रक्तचाप (≥140/90 mmHg) की स्थिति है। सिरदर्द, धुंधला दिखना और चेहरे पर सूजन इसके मुख्य लक्षण हैं।",
+        answer_kn: "ಪ್ರಿ-ಎಕ್ಲಾಂಪ್ಸಿಯಾ ಗರ್ಭಧಾರಣೆಯ 20 ವಾರಗಳ ನಂತರ ಹೆಚ್ಚಿನ ರಕ್ತದೊತ್ತಡ (≥140/90 mmHg) ಉಂಟುಮಾಡುತ್ತದೆ. ತೀವ್ರ ತಲೆನೋವು ಮತ್ತು ಮುಖದ ಊತ ಇದರ ಮುಖ್ಯ ಲಕ್ಷಣಗಳು.",
+        citation: "ACOG Practice Bulletin No. 222 (Gestational Hypertension & Preeclampsia)"
+      },
+      {
+        keywords: ['hot flash', 'sweat', 'night', 'menopause', 'perimenopause', 'गर्मी', 'ಮಿನೋಪಾಸ್'],
+        answer_en: "Hot flashes occur as declining estrogen affects the brain's thermostat (hypothalamus). Layered clothing, avoiding caffeine/spicy foods, and cooling fans help manage symptoms.",
+        answer_hi: "एस्ट्रोजन हार्मोन का स्तर कम होने से हॉट फ्लैशेज (अचानक गर्मी और पसीना आना) होते हैं। सूती कपड़े पहनना, मसालेदार भोजन से बचना और ठंडा पानी पीना इसमें मदद करता है।",
+        answer_kn: "ಈಸ್ಟ್ರೊಜೆನ್ ಮಟ್ಟ ಕಡಿಮೆಯಾಗುವುದರಿಂದ ದಿಢೀರ್ ಉಷ್ಣತೆ ಹಾಗೂ ಬೆವರು ಉಂಟಾಗುತ್ತದೆ. ತೆಳುವಾದ ಹತ್ತಿ ಬಟ್ಟೆ ಧರಿಸುವುದು ಮತ್ತು ಖಾರ ಕಡಿಮೆ ತಿನ್ನುವುದು ಉಪಯುಕ್ತ.",
+        citation: "IMS (International Menopause Society) Guidelines 2023"
+      },
+      {
+        keywords: ['cramp', 'pain', 'period pain', 'dysmenorrhea', 'दर्द', 'ನೋವು'],
+        answer_en: "Period cramps are caused by uterine contractions triggered by prostaglandins. Warm heat pads, gentle walking, and hydration provide evidence-based relief.",
+        answer_hi: "मासिक धर्म में ऐंठन (पीरियड दर्द) प्रोस्टाग्लैंडिन्स के कारण होती है। गर्म पानी की सिकाई और हल्का व्यायाम राहत दिलाता है।",
+        answer_kn: "ಮುಟ್ಟಿನ ನೋವು ಗರ್ಭಾಶಯದ ಸಂಕೋಚನದಿಂದ ಉಂಟಾಗುತ್ತದೆ. ಬಿಸಿ ನೀರಿನ ಶಾಖ ಮತ್ತು ಸಾಧಾರಣ ನಡಿಗೆಯಿಂದ ನೋವು ಕಡಿಮೆಯಾಗುತ್ತದೆ.",
+        citation: "ICMR Adolescent & Women's Health Protocols"
+      }
+    ];
+
+
+    // EXPANDED MYTH VS FACT CARDS (8 CARDS)
+    const mythCards = [
+      {
+        myth_en: "Myth: You shouldn't wash your hair or bathe during your period.",
+        fact_en: "Fact: Warm baths actually relax uterine muscles and improve hygiene during menstruation.",
+        myth_hi: "भ्रम: पीरियड के दौरान बाल नहीं धोने चाहिए या नहाना नहीं चाहिए।",
+        fact_hi: "तथ्य: हल्के गर्म पानी से नहाने से मांसपेशियों को आराम मिलता है और स्वच्छता बनी रहती है।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: ಮುಟ್ಟಿನ ಸಮಯದಲ್ಲಿ ಸ್ನಾನ ಮಾಡಬಾರದು ಅಥವಾ ತಲೆ ತೊಳೆಯಬಾರದು.",
+        fact_kn: "ಸತ್ಯ: ಉಗುರುಬೆಚ್ಚಗಿನ ನೀರಿನ ಸ್ನಾನವು ಮುಟ್ಟಿನ ನೋವನ್ನು ಉಪಶಮನಗೊಳಿಸುತ್ತದೆ."
+      },
+      {
+        myth_en: "Myth: Irregular periods in your 40s always mean pregnancy.",
+        fact_en: "Fact: Fluctuating cycle length in your 40s is often the first sign of perimenopause.",
+        myth_hi: "भ्रम: 40 की उम्र में पीरियड अनियमित होने का मतलब हमेशा प्रेग्नेंसी है।",
+        fact_hi: "तथ्य: 40 के दशक में हार्मोन बदलाव के कारण पेरिमैनोपॉज की शुरुआत होती है।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: 40 ರ ಹರೆಯದಲ್ಲಿ ಮುಟ್ಟು ಅನಿಯಮಿತವಾದರೆ ಅದು ಗರ್ಭಧಾರಣೆ ಎನ್ನಲಾಗುತ್ತದೆ.",
+        fact_kn: "ಸತ್ಯ: 40 ರ ನಂತರ ಮುಟ್ಟಿನ ವ್ಯತ್ಯಾಸವು ಪೆರಿಮೆನೋಪಾಸ್‌ನ ಸಹಜ ಲಕ್ಷಣವಾಗಿದೆ."
+      },
+      {
+        myth_en: "Myth: Pickles will spoil if touched by a menstruating woman.",
+        fact_en: "Fact: Menstruation is a natural bodily process. Microbes, not touch, cause food spoilage.",
+        myth_hi: "भ्रम: पीरियड के दौरान आचार छूने से खराब हो जाता है।",
+        fact_hi: "तथ्य: मासिक धर्म एक प्राकृतिक शारीरिक प्रक्रिया है। बैक्टीरिया आचार खराब करते हैं, स्पर्श नहीं।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: ಮುಟ್ಟಾದ ಮಹಿಳೆ ಉಪ್ಪಿನಕಾಯಿ ಮುಟ್ಟಿದರೆ ಹಾಳಾಗುತ್ತದೆ.",
+        fact_kn: "ಸತ್ಯ: ಇದು ವೈಜ್ಞಾನಿಕವಲ್ಲ. ಉಪ್ಪಿನಕಾಯಿ ಹಾಳಾಗಲು ಬ್ಯಾಕ್ಟೀರಿಯಾಗಳು ಕಾರಣವೇ ಹೊರತು ಮುಟ್ಟಲ್ಲ."
+      },
+      {
+        myth_en: "Myth: Exercising during your period damages your reproductive organs.",
+        fact_en: "Fact: Light to moderate exercise releases endorphins which reduce menstrual cramps.",
+        myth_hi: "भ्रम: पीरियड में एक्सरसाइज करने से नुकसान होता है।",
+        fact_hi: "तथ्य: हल्का व्यायाम और वॉक करने से एंडोर्फिन निकलता है जो दर्द कम करता है।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: ಮುಟ್ಟಿನ ಸಮಯದಲ್ಲಿ ವ್ಯಾಯಾಮ ಮಾಡುವುದು ಅಪಾಯಕಾರಿ.",
+        fact_kn: "ಸತ್ಯ: ಹಗುರವಾದ ವ್ಯಾಯಾಮ ಮತ್ತು ನಡಿಗೆಯು ನೋವನ್ನು ಶಮನಗೊಳಿಸಲು ನೆರವಾಗುತ್ತದೆ."
+      },
+      {
+        myth_en: "Myth: Eating papaya or pineapple during pregnancy causes miscarriage.",
+        fact_en: "Fact: Ripe papaya and pineapple in normal amounts are safe and nutrient-rich in pregnancy.",
+        myth_hi: "भ्रम: गर्भावस्था में पपीता या अनानास खाने से गर्भपात होता है।",
+        fact_hi: "तथ्य: पका हुआ पपीता और अनानास सीमित मात्रा में सुरक्षित और पोषक तत्वों से भरपूर हैं।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: ಗರ್ಭಿಣಿಯರು ಪಪ್ಪಾಯಿ ತಿಂದರೆ ಗರ್ಭಪಾತವಾಗುತ್ತದೆ.",
+        fact_kn: "ಸತ್ಯ: ಪಕ್ವವಾದ ಪಪ್ಪಾಯಿ ಹಣ್ಣನ್ನು ಮಿತವಾಗಿ ಸೇವಿಸುವುದು ಗರ್ಭಿಣಿಯರಿಗೆ ಸುರಕ್ಷಿತ."
+      },
+      {
+        myth_en: "Myth: Menopause happens suddenly in one single day.",
+        fact_en: "Fact: Perimenopause is a transition lasting 4 to 8 years before full menopause.",
+        myth_hi: "भ्रम: मेनोपॉज अचानक एक दिन में हो जाता है।",
+        fact_hi: "तथ्य: पेरिमैनोपॉज एक प्रक्रिया है जो 4 से 8 साल तक धीरे-धीरे चलती है।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: ಮೆನೋಪಾಸ್ ಒಂದೇ ದಿನದಲ್ಲಿ ದಿಢೀರನೆ ಸಂಭವಿಸುತ್ತದೆ.",
+        fact_kn: "ಸತ್ಯ: ಮೆನೋಪಾಸ್ ಎಂಬುದು 4 ರಿಂದ 8 ವರ್ಷಗಳ ದೀರ್ಘಾವಧಿಯ ಬದಲಾವಣೆಯ ಹಂತ."
+      },
+      {
+        myth_en: "Myth: You cannot get pregnant while breastfeeding.",
+        fact_en: "Fact: Ovulation can return before your first postpartum period. Contraception is advised.",
+        myth_hi: "भ्रम: स्तनपान कराने के दौरान प्रेग्नेंसी नहीं हो सकती।",
+        fact_hi: "तथ्य: पहला पीरियड आने से पहले भी ओव्यूलेशन हो सकता है। सुरक्षा का प्रयोग आवश्यक है।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: ಹಾಲುಣಿಸುವ ಸಮಯದಲ್ಲಿ ಗರ್ಭಧಾರಣೆ ಸಾಧ್ಯವಿಲ್ಲ.",
+        fact_kn: "ಸತ್ಯ: ಮುಟ್ಟು ಮರುಪ್ರಾರಂಭವಾಗುವ ಮುನ್ನವೇ ಅಂಡೋತ್ಪತ್ತಿಯಾಗಬಹುದು. ಮುನ್ನೆಚ್ಚರಿಕೆ ಅಗತ್ಯ."
+      },
+      {
+        myth_en: "Myth: Severe period pain is normal and must just be endured silently.",
+        fact_en: "Fact: Debilitating pain can be a sign of endometriosis or PCOS and should be evaluated.",
+        myth_hi: "भ्रम: अत्यधिक पीरियड पेन सामान्य है और इसे चुपचाप सहना चाहिए।",
+        fact_hi: "तथ्य: अत्यधिक दर्द एंडोमेट्रियोसिस या PCOS का संकेत हो सकता है, डॉक्टर से जांच कराएं।",
+        myth_kn: "ಮಿಥ್ಯಾಕಲ್ಪನೆ: ತೀವ್ರ ಮುಟ್ಟಿನ ನೋವು ಸಾಮಾನ್ಯ, ಅದನ್ನು ಸಹಿಸಿಕೊಳ್ಳಬೇಕು.",
+        fact_kn: "ಸತ್ಯ: ಅಸಹನೀಯ ನೋವು ಪಿಸಿಒಎಸ್ ಅಥವಾ ಎಂಡೋಮೆಟ್ರಿಯೋಸಿಸ್ ಲಕ್ಷಣವಾಗಿರಬಹುದು. ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ."
+      }
+    ];
+
+
+    // CLINICS DATA
+    const clinicData = [
+      { name: "AIIMS Women's Wellness & ANC Clinic", loc: "delhi", type: "Government Hospital", contact: "011-26588500" },
+      { name: "KEM Maternal & Reproductive Care", loc: "mumbai", type: "Public Healthcare", contact: "022-24107000" },
+      { name: "Vani Vilas Women & Children Hospital", loc: "bengaluru", type: "Specialized Maternity", contact: "080-26705200" },
+      { name: "MP District Matritva Line (Dewas/Bhopal)", loc: "mp", type: "Free Helpline (Tele-MANAS)", contact: "14416" }
+    ];
+
+
+    // I18N DICTIONARY
+    const i18n = {
+      en: {
+        tagline: "One private companion for every stage of a woman’s health",
+        disclaimer: "Medical Disclaimer: Sakhi provides WHO/ICMR grounded health info. It is NOT a substitute for professional doctor diagnosis.",
+        chatTitle: "Ask Sakhi Health Assistant",
+        chatSub: "Private, judgment-free answers with explicit guideline citations.",
+        mythTitle: "Myth vs Fact Flip Cards",
+        clinicTitle: "Verified Clinics & Telehealth (India)",
+        tabAsk: "Ask Sakhi",
+        tabCycle: "Cycle & Mind",
+        tabMother: "Mother Watch",
+        tabChange: "Change Companion",
+        tabSummary: "Doctor Visit Summary"
+      },
+      hi: {
+        tagline: "महिला स्वास्थ्य के हर पड़ाव पर एक सुरक्षित और निजी सखी",
+        disclaimer: "चिकित्सा अस्वीकरण: सखी WHO/ICMR दिशानिर्देशों पर आधारित है। यह डॉक्टर की सलाह का विकल्प नहीं है।",
+        chatTitle: "सखी स्वास्थ्य सहायक से पूछें",
+        chatSub: "गोपनीय, बिना किसी झिझक के उत्तर - स्वास्थ्य स्रोतों के साथ।",
+        mythTitle: "मिथक बनाम तथ्य (कार्ड पलटें)",
+        clinicTitle: "सत्यापित क्लिनिक और टेलीहेल्थ सुविधाएँ",
+        tabAsk: "पूछें सखी",
+        tabCycle: "चक्र और मन",
+        tabMother: "मदर वॉच",
+        tabChange: "परिवर्तन संगिनी",
+        tabSummary: "डॉक्टर विजिट समरी"
+      },
+      kn: {
+        tagline: "ಮಹಿಳೆಯರ ಆರೋಗ್ಯದ ಪ್ರತಿಯೊಂದು ಹಂತಕ್ಕೂ ನಿಮ್ಮ ಖಾಸಗಿ ಸಖಿ",
+        disclaimer: "ವೈದ್ಯಕೀಯ ಹಕ್ಕುತ್ಯಾಗ: ಸಖಿ WHO/ICMR ಮಾರ್ಗಸೂಚಿ ಆಧಾರಿತ ಮಾಹಿತಿ ನೀಡುತ್ತದೆ. ಇದು ವೈದ್ಯರ ಪರ್ಯಾಯವಲ್ಲ.",
+        chatTitle: "ಸಖಿ ಆರೋಗ್ಯ ಸಹಾಯಕಿಯನ್ನು ಕೇಳಿ",
+        chatSub: "ಖಾಸಗಿ, ಗೌಪ್ಯ ಮತ್ತು ನಂಬಿಗಸ್ಥ ಆರೋಗ್ಯ ಉತ್ತರಗಳು.",
+        mythTitle: "ಮಿಥ್ಯಾಕಲ್ಪನೆ ಮತ್ತು ಸತ್ಯ ಸಂಗತಿಗಳು",
+        clinicTitle: "ಖಾತರಿಪಡಿಸಿದ ಆಸ್ಪತ್ರೆ ಮತ್ತು ಟೆಲಿಹೆಲ್ಪ್",
+        tabAsk: "ಸಖಿ ಕೇಳಿ",
+        tabCycle: "ಋತುಚಕ್ರ ಮತ್ತು ಮನಸ್ಸು",
+        tabMother: "ಮದರ್ ವಾಚ್",
+        tabChange: "ಬದಲಾವಣೆ ಸಂಗಾತಿ",
+        tabSummary: "ವೈದ್ಯರ ಭೇಟಿ ವರದಿ"
+      }
+    };
+
+
+    // =========================================================================
+    // INITIALIZATION & SWITCHERS
+    // =========================================================================
+    window.onload = function() {
+      renderEpds();
+      lucide.createIcons();
+      loadPatientProfilesFromStorage();
+      renderWelcomeChatMessage();
+      renderMythCards();
+      renderClinics('all');
+      initCycleChart();
+      setDefaultDates();
+      renderPatientSelectDropdown();
+      loadStoredLogsAndUpdateSummary();
+    };
+
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(el => {
+        el.classList.remove('bg-rose-600', 'text-white', 'shadow-sm');
+        el.classList.add('text-slate-600', 'hover:bg-slate-200');
+      });
+
+
+      const targetSec = document.getElementById(`sec-${tabId}`);
+      const targetNav = document.getElementById(`nav-${tabId}`);
+      if (targetSec) targetSec.classList.remove('hidden');
+      if (targetNav) {
+        targetNav.classList.add('bg-rose-600', 'text-white', 'shadow-sm');
+        targetNav.classList.remove('text-slate-600', 'hover:bg-slate-200');
+      }
+
+
+      if (tabId === 'doctor-summary') updateDoctorSummaryReport();
+    }
+
+
+    function changeLanguage(langKey) {
+      currentLang = langKey;
+      document.getElementById('txt-tagline').innerText = i18n[currentLang].tagline;
+      document.getElementById('txt-disclaimer-banner').innerText = i18n[currentLang].disclaimer;
+      document.getElementById('txt-chat-title').innerText = i18n[currentLang].chatTitle;
+      document.getElementById('txt-chat-sub').innerText = i18n[currentLang].chatSub;
+      document.getElementById('txt-myth-title').innerText = i18n[currentLang].mythTitle;
+      document.getElementById('txt-clinic-title').innerText = i18n[currentLang].clinicTitle;
+      
+      document.getElementById('tab-ask').innerText = i18n[currentLang].tabAsk;
+      document.getElementById('tab-cycle').innerText = i18n[currentLang].tabCycle;
+      document.getElementById('tab-mother').innerText = i18n[currentLang].tabMother;
+      document.getElementById('tab-change').innerText = i18n[currentLang].tabChange;
+      document.getElementById('tab-summary').innerText = i18n[currentLang].tabSummary;
+
+
+      renderMythCards();
+      renderWelcomeChatMessage();
+    }
+
+
+    function changeLifeStage(stageKey) {
+      currentStage = stageKey;
+      const bTitle = document.getElementById('banner-title');
+      const bDesc = document.getElementById('banner-desc');
+      const stageTag = document.getElementById('banner-stage-tag');
+
+
+      if (stageKey === 'cycle') {
+        stageTag.innerText = "🌸 CYCLE YEARS";
+        bTitle.innerText = "Cycle & Reproductive Health Companion";
+        bDesc.innerText = "Sakhi is tailored to guide your menstrual wellness, emotional balance, and reproductive decisions.";
+        switchTab('cycle-mind');
+      } else if (stageKey === 'pregnancy') {
+        stageTag.innerText = "🤰 PREGNANCY STAGE";
+        bTitle.innerText = "Mother Watch Maternal Monitor";
+        bDesc.innerText = "Tracking blood pressure, preeclampsia indicators, and trimester health milestones.";
+        switchTab('mother-watch');
+      } else if (stageKey === 'menopause') {
+        stageTag.innerText = "🌿 PERIMENOPAUSE / MENOPAUSE";
+        bTitle.innerText = "Change Companion Wellness";
+        bDesc.innerText = "Monitoring hot flashes, sleep patterns, bone health, and hormone transition guidance.";
+        switchTab('change-companion');
+      }
+    }
+
+
+    function openStageModal() { document.getElementById('modal-stage').classList.remove('hidden'); }
+    function closeStageModal() { document.getElementById('modal-stage').classList.add('hidden'); }
+    function selectStageFromModal(stageKey) {
+      document.getElementById('stage-select').value = stageKey;
+      changeLifeStage(stageKey);
+      closeStageModal();
+    }
+
+
+    function toggleEmergencyModal() {
+      document.getElementById('modal-emergency').classList.toggle('hidden');
+    }
+
+
+    function openPMDDModal() { document.getElementById('modal-pmdd').classList.remove('hidden'); }
+    function closePMDDModal() { document.getElementById('modal-pmdd').classList.add('hidden'); }
+
+
+    // =========================================================================
+    // ASK SAKHI ENGINE
+    // =========================================================================
+    function renderWelcomeChatMessage() {
+      const chatBox = document.getElementById('chat-messages');
+      let msg = "Namaste! I am <strong>Sakhi</strong>, your private health companion. I answer questions on periods, pregnancy, contraception, mental health, and menopause using official WHO and ICMR guidelines.";
+      if (currentLang === 'hi') msg = "नमस्ते! मैं <strong>सखी</strong> हूँ, आपकी निजी स्वास्थ्य संगिनी। मैं पीरियड, गर्भावस्था, मानसिक स्वास्थ्य और मेनोपॉज पर WHO और ICMR दिशानिर्देशों से उत्तर देती हूँ।";
+      if (currentLang === 'kn') msg = "ನಮಸ್ಕಾರ! ನಾನು <strong>ಸಖಿ</strong>, ನಿಮ್ಮ ಖಾಸಗಿ ಆರೋಗ್ಯ ಸಂಗಾತಿ. ಋತುಚಕ್ರ, ಗರ್ಭಧಾರಣೆ ಮತ್ತು ಮಹಿಳೆಯರ ಆರೋಗ್ಯಕ್ಕೆ ವೈಜ್ಞಾನಿಕ ಮಾಹಿತಿ ನೀಡುತ್ತೇನೆ.";
+
+
+      chatBox.innerHTML = `
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">स</div>
+          <div class="bg-white border border-rose-100 p-3.5 rounded-2xl max-w-[85%] text-xs text-slate-700 shadow-sm leading-relaxed">
+            ${msg}
+          </div>
+        </div>
+      `;
+    }
+
+
+    function handleChatKeyPress(e) {
+      if (e.key === 'Enter') handleSendMessage();
+    }
+
+
+    function sendQuickPrompt(promptText) {
+      document.getElementById('chat-input').value = promptText;
+      handleSendMessage();
+    }
+
+
+    function handleSendMessage() {
+      const inputEl = document.getElementById('chat-input');
+      const text = inputEl.value.trim();
+      if (!text) return;
+
+
+      const chatBox = document.getElementById('chat-messages');
+      
+      chatBox.innerHTML += `
+        <div class="flex items-start gap-3 justify-end">
+          <div class="bg-rose-600 text-white p-3.5 rounded-2xl max-w-[85%] text-xs shadow-sm leading-relaxed">
+            ${escapeHtml(text)}
+          </div>
+        </div>
+      `;
+
+
+      inputEl.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+
+      setTimeout(() => {
+        const botResponse = generateGroundedBotAnswer(text);
+        chatBox.innerHTML += `
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">स</div>
+            <div class="bg-white border border-slate-200 p-3.5 rounded-2xl max-w-[85%] text-xs text-slate-800 shadow-sm leading-relaxed space-y-2">
+              <p>${botResponse.answer}</p>
+              <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+                <span class="font-bold text-rose-700">Source: ${botResponse.citation}</span>
+                <span>🔒 Private Log</span>
+              </div>
+            </div>
+          </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 400);
+    }
+
+
+    function generateGroundedBotAnswer(query) {
+      const q = query.toLowerCase();
+      let matched = null;
+
+
+      for (let item of kbData) {
+        if (item.keywords.some(k => q.includes(k))) {
+          matched = item;
+          break;
+        }
+      }
+
+
+      if (matched) {
+        let ans = matched.answer_en;
+        if (currentLang === 'hi') ans = matched.answer_hi;
+        if (currentLang === 'kn') ans = matched.answer_kn;
+        return { answer: ans, citation: matched.citation };
+      }
+
+
+      return {
+        answer: currentLang === 'hi' 
+          ? "क्षमा करें, मुझे इस विशिष्ट स्थिति के बारे में पर्याप्त चिकित्सकीय जानकारी नहीं है। कृपया डॉक्टर से परामर्श लें।" 
+          : (currentLang === 'kn' ? "ಕ್ಷಮಿಸಿ, ಈ ವೈದ್ಯಕೀಯ ಪ್ರಶ್ನೆಗೆ ನಿಖರ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ." : "I am sorry, I don't know the exact answer to this specific medical query. Please consult a qualified doctor."),
+        citation: "Safety Fallback Rule (WHO Guidance)"
+      };
+    }
+
+
+    function clearChat() { renderWelcomeChatMessage(); }
+
+
+    function toggleVoiceInput() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("Web Speech API is not supported on this browser. Try Chrome or Edge.");
+        return;
+      }
+      
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = currentLang === 'hi' ? 'hi-IN' : (currentLang === 'kn' ? 'kn-IN' : 'en-US');
+
+
+      const voiceBtn = document.getElementById('voice-btn');
+      
+      if (!isListening) {
+        recognition.start();
+        isListening = true;
+        voiceBtn.classList.add('bg-rose-100', 'text-rose-600', 'animate-pulse');
+      }
+
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('chat-input').value = transcript;
+        isListening = false;
+        voiceBtn.classList.remove('bg-rose-100', 'text-rose-600', 'animate-pulse');
+        handleSendMessage();
+      };
+
+
+      recognition.onerror = function() {
+        isListening = false;
+        voiceBtn.classList.remove('bg-rose-100', 'text-rose-600', 'animate-pulse');
+      };
+    }
+
+
+    function renderMythCards() {
+      const container = document.getElementById('myth-cards-container');
+      container.innerHTML = mythCards.map((c, idx) => {
+        let mythText = c.myth_en;
+        let factText = c.fact_en;
+        if (currentLang === 'hi') { mythText = c.myth_hi; factText = c.fact_hi; }
+        if (currentLang === 'kn') { mythText = c.myth_kn; factText = c.fact_kn; }
+
+
+        return `
+          <div class="flip-card h-32 cursor-pointer" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-sm border border-purple-100">
+              <div class="flip-card-front absolute inset-0 bg-purple-50 rounded-2xl p-4 flex flex-col justify-between">
+                <span class="text-[10px] font-extrabold text-purple-700 uppercase tracking-wider">MYTH CARD #${idx + 1}</span>
+                <p class="text-xs font-semibold text-purple-950">${mythText}</p>
+                <span class="text-[10px] text-purple-600 font-bold underline text-right">Tap to Reveal Fact ↺</span>
+              </div>
+              <div class="flip-card-back absolute inset-0 bg-teal-600 text-white rounded-2xl p-4 flex flex-col justify-between">
+                <span class="text-[10px] font-extrabold text-teal-200 uppercase tracking-wider">VERIFIED CLINICAL FACT</span>
+                <p class="text-xs font-semibold leading-relaxed">${factText}</p>
+                <span class="text-[10px] text-teal-200 font-bold text-right">Grounded Guidance ✓</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+
+    function renderClinics(filterLoc) {
+      const listEl = document.getElementById('clinic-list');
+      const filtered = filterLoc === 'all' ? clinicData : clinicData.filter(c => c.loc === filterLoc);
+      
+      listEl.innerHTML = filtered.map(c => `
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-slate-800">${c.name}</h4>
+            <span class="text-[10px] text-teal-700 font-semibold">${c.type}</span>
+          </div>
+          <a href="tel:${c.contact}" class="bg-teal-100 hover:bg-teal-200 text-teal-800 px-2.5 py-1 rounded-lg font-bold text-[11px] flex items-center gap-1">
+            <i data-lucide="phone" class="w-3 h-3"></i> Call
+          </a>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+
+    function filterClinics() {
+      renderClinics(document.getElementById('clinic-city').value);
+    }
+
+
+    // =========================================================================
+    // CYCLE & MIND (REAL 90-DAY RETENTION & DYNAMIC SUMMARY)
+    // =========================================================================
+    function setDefaultDates() {
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem('sakhi_cycle') || 'null'); } catch (e) {}
+      if (saved) {
+        document.getElementById('cycle-last-date').value = saved.val;
+        document.getElementById('cycle-length').value = saved.len;
+        document.getElementById('period-length').value = saved.per;
+      } else {
+        const d = new Date(); d.setDate(d.getDate() - 8);
+        document.getElementById('cycle-last-date').value = todayISO(d);
+      }
+      calculateCyclePhase();
+    }
+
+
+    function calculateCyclePhase() {
+      const val = document.getElementById('cycle-last-date').value;
+      const len = Math.min(60, Math.max(20, parseInt(document.getElementById('cycle-length').value) || 28));
+      const per = Math.min(10, Math.max(2, parseInt(document.getElementById('period-length').value) || 5));
+      const title = document.getElementById('txt-current-phase');
+      const desc = document.getElementById('txt-phase-desc');
+      const extra = document.getElementById('cycle-extra');
+      if (!val) { title.innerText = 'Enter your last period start date'; desc.innerText = ''; extra.innerHTML = ''; return; }
+
+      const DAY = 864e5, [y, m, d] = val.split('-').map(Number), start = new Date(y, m - 1, d);
+      const now = new Date(); now.setHours(0, 0, 0, 0);
+      const diff = Math.round((now - start) / DAY);
+      if (diff < 0) { title.innerText = 'That date is in the future'; desc.innerText = 'Choose the first day of your most recent period.'; extra.innerHTML = ''; return; }
+      try { localStorage.setItem('sakhi_cycle', JSON.stringify({ val, len, per })); } catch (e) {}
+
+      const add = n => new Date(start.getTime() + n * DAY);
+      const fmt = dt => dt.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+      const ov = len - 14;                                   // ovulation day number (luteal phase ~14 days)
+      const b1 = per, b2 = Math.max(per, ov - 2), b3 = Math.max(b2, ov + 1);
+      const late = diff >= len;
+      const day = late ? len : diff + 1;
+      let name, text;
+      if (late) { name = 'Period due'; text = 'Your logged cycle length has passed.'; }
+      else if (day <= b1) { name = 'Menstrual Phase'; text = 'Hormones at baseline. Rest, warm hydration, and gentle movement recommended.'; }
+      else if (day <= b2) { name = 'Follicular Phase'; text = 'Estrogen rising. Energy and focus tend to increase.'; }
+      else if (day <= b3) { name = 'Ovulation Phase'; text = 'Peak estrogen and LH. Highest energy and fertility window.'; }
+      else { name = 'Luteal Phase'; text = 'Progesterone dominant. Mindful stress management advised.'; }
+      title.innerText = late ? name : `${name} (Day ${day})`;
+      desc.innerText = text;
+
+      const toNext = len - diff;
+      const fertile = diff >= ov - 6 && diff <= ov;
+      const seg = [[b1, '#7a3552', 'Period'], [b2 - b1, '#8fa3cf', 'Follicular'], [b3 - b2, '#2f6656', 'Ovulation'], [len - b3, '#b9b08a', 'Luteal']];
+      const bar = seg.map(x => `<div title="${x[2]}" style="width:${x[0] / len * 100}%;background:${x[1]}" class="h-3"></div>`).join('');
+      const pos = Math.min(99, (Math.min(diff + 0.5, len)) / len * 100);
+      let lateMsg = '';
+      if (late && diff < len + 60) {
+        const by = diff - len;
+        lateMsg = `<div class="p-3 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900">Your period is <strong>${by === 0 ? 'due today' : by + ' day' + (by > 1 ? 's' : '') + ' late'}</strong> if it has not started. ${by >= 7 ? 'If you could be pregnant, take a home test. See a doctor if it is more than 7 days late, or if you have gone 3 months without a period.' : 'Cycles vary, so wait a few days before worrying.'} Update the start date above once it begins.</div>`;
+      } else if (late) {
+        lateMsg = `<div class="p-3 rounded-xl bg-slate-100 text-xs text-slate-700">That date is ${diff} days ago. Enter the first day of your latest period for an accurate forecast.</div>`;
+      }
+      const nexts = [1, 2, 3].map(k => `<span class="px-2 py-1 bg-white border border-slate-200 rounded-lg">${fmt(add(len * k))}</span>`).join(' ');
+      extra.innerHTML = `
+        <div class="relative pt-2"><div class="flex rounded overflow-hidden">${bar}</div>
+          ${late ? '' : `<div class="absolute top-0 w-0.5 h-7 bg-slate-900" style="left:${pos}%"></div>`}
+          <div class="flex justify-between text-[10px] text-slate-500 mt-1"><span>Day 1</span><span>Day ${len}</span></div></div>
+        ${lateMsg}
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100"><span class="text-slate-500 block">Next period</span><strong>${fmt(add(len))}</strong><span class="text-slate-500 block">${toNext > 0 ? 'in ' + toNext + ' day' + (toNext > 1 ? 's' : '') : (toNext === 0 ? 'expected today' : Math.abs(toNext) + ' days ago')}</span></div>
+          <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100"><span class="text-slate-500 block">Likely ovulation</span><strong>${fmt(add(ov - 1))}</strong><span class="text-slate-500 block">Day ${ov}</span></div>
+          <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100 col-span-2"><span class="text-slate-500 block">Fertile window</span><strong>${fmt(add(ov - 6))} to ${fmt(add(ov))}</strong> ${fertile ? '<span class="ml-1 text-teal-700 font-bold">· you are in it now</span>' : ''}</div>
+        </div>
+        <div class="text-xs text-slate-600">Next three periods: ${nexts}</div>
+        <p class="text-[10px] text-slate-400">Estimates assume ovulation about 14 days before your next period. Not reliable as contraception.</p>`;
+    }
+
+
+    function saveDailyCheckIn() {
+      const mood = parseInt(document.getElementById('log-mood').value);
+      const sleep = parseInt(document.getElementById('log-sleep').value);
+      const stress = parseInt(document.getElementById('log-stress').value);
+      const energy = parseInt(document.getElementById('log-energy').value);
+      const pain = parseInt(document.getElementById('log-pain').value);
+
+
+      const newEntry = {
+        date: new Date().toISOString().split('T')[0],
+        timestamp: Date.now(),
+        mood, sleep, stress, energy, pain
+      };
+
+
+      let logs = JSON.parse(localStorage.getItem('sakhi_90day_logs') || '[]');
+      
+      // Filter out older than 90 days
+      const ninetyDaysAgo = Date.now() - (90 * 24 * 60 * 60 * 1000);
+      logs = logs.filter(l => l.timestamp >= ninetyDaysAgo);
+      
+      logs.push(newEntry);
+      localStorage.setItem('sakhi_90day_logs', JSON.stringify(logs));
+
+
+      const msg = document.getElementById('checkin-save-msg');
+      msg.classList.remove('hidden');
+      setTimeout(() => msg.classList.add('hidden'), 2500);
+
+
+      loadStoredLogsAndUpdateSummary();
+    }
+
+
+    function loadStoredLogsAndUpdateSummary() {
+      let logs = JSON.parse(localStorage.getItem('sakhi_90day_logs') || '[]');
+      const ninetyDaysAgo = Date.now() - (90 * 24 * 60 * 60 * 1000);
+      logs = logs.filter(l => l.timestamp >= ninetyDaysAgo);
+
+
+      document.getElementById('stat-total-logs').innerText = logs.length;
+
+
+      if (logs.length > 0) {
+        const avgMood = (logs.reduce((acc, c) => acc + c.mood, 0) / logs.length).toFixed(1);
+        const avgSleep = (logs.reduce((acc, c) => acc + c.sleep, 0) / logs.length).toFixed(1);
+        const severePainDays = logs.filter(l => l.pain >= 5).length;
+
+
+        document.getElementById('stat-avg-mood').innerText = `${avgMood} / 5`;
+        document.getElementById('stat-avg-sleep').innerText = `${avgSleep} / 5`;
+        document.getElementById('stat-pain-days').innerText = severePainDays;
+
+
+        updateCycleChartWithRealLogs(logs);
+      } else {
+        document.getElementById('stat-avg-mood').innerText = "--";
+        document.getElementById('stat-avg-sleep').innerText = "--";
+        document.getElementById('stat-pain-days').innerText = "0";
+      }
+    }
+
+
+    function initCycleChart() {
+      const ctx = document.getElementById('cycleChart').getContext('2d');
+      cycleChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['No Logs Saved Yet'],
+          datasets: [
+            { label: 'Mood Score (1-5)', data: [3], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.1)', tension: 0.3, fill: true },
+            { label: 'Sleep Quality (1-5)', data: [3], borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [5, 5], tension: 0.3 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { min: 1, max: 5 } }
+        }
+      });
+    }
+
+
+    function updateCycleChartWithRealLogs(logs) {
+      if (!cycleChartInstance) return;
+      const recent = logs.slice(-10); // show last 10 entries
+      cycleChartInstance.data.labels = recent.map(l => l.date.slice(5));
+      cycleChartInstance.data.datasets[0].data = recent.map(l => l.mood);
+      cycleChartInstance.data.datasets[1].data = recent.map(l => l.sleep);
+      cycleChartInstance.update();
+    }
+
+
+    function loadDemoCycleData() {
+      const demoLogs = [
+        { date: '10-10', timestamp: Date.now()-90000, mood: 2, sleep: 2, stress: 4, energy: 2, pain: 5 },
+        { date: '10-12', timestamp: Date.now()-80000, mood: 3, sleep: 3, stress: 3, energy: 3, pain: 2 },
+        { date: '10-14', timestamp: Date.now()-70000, mood: 4, sleep: 4, stress: 2, energy: 4, pain: 0 },
+        { date: '10-16', timestamp: Date.now()-60000, mood: 5, sleep: 5, stress: 1, energy: 5, pain: 0 },
+        { date: '10-18', timestamp: Date.now()-50000, mood: 4, sleep: 4, stress: 2, energy: 4, pain: 0 },
+        { date: '10-20', timestamp: Date.now()-40000, mood: 3, sleep: 3, stress: 3, energy: 3, pain: 0 },
+        { date: '10-22', timestamp: Date.now()-30000, mood: 2, sleep: 2, stress: 5, energy: 2, pain: 2 }
+      ];
+      localStorage.setItem('sakhi_90day_logs', JSON.stringify(demoLogs));
+      loadStoredLogsAndUpdateSummary();
+    }
+
+
+    const EPDS = [
+      ['I have been able to laugh and see the funny side of things', [['As much as I always could',0],['Not quite so much now',1],['Definitely not so much now',2],['Not at all',3]]],
+      ['I have looked forward to things with enjoyment', [['As much as I ever did',0],['Rather less than I used to',1],['Definitely less than I used to',2],['Hardly at all',3]]],
+      ['I have blamed myself unnecessarily when things went wrong', [['No, never',0],['Not very often',1],['Yes, some of the time',2],['Yes, most of the time',3]]],
+      ['I have felt anxious or worried for no good reason', [['No, not at all',0],['Hardly ever',1],['Yes, sometimes',2],['Yes, very often',3]]],
+      ['I have felt scared or panicky for no very good reason', [['No, not at all',0],['No, not much',1],['Yes, sometimes',2],['Yes, quite a lot',3]]],
+      ['Things have been getting on top of me', [['I have coped as well as ever',0],['Most of the time I have coped quite well',1],['Sometimes I have not coped as well as usual',2],['Most of the time I have not been able to cope',3]]],
+      ['I have been so unhappy that I have had difficulty sleeping', [['No, not at all',0],['Not very often',1],['Yes, sometimes',2],['Yes, most of the time',3]]],
+      ['I have felt sad or miserable', [['No, not at all',0],['Not very often',1],['Yes, quite often',2],['Yes, most of the time',3]]],
+      ['I have been so unhappy that I have been crying', [['No, never',0],['Only occasionally',1],['Yes, quite often',2],['Yes, most of the time',3]]],
+      ['The thought of harming myself has occurred to me', [['Never',0],['Hardly ever',1],['Sometimes',2],['Yes, quite often',3]]]
+    ];
+
+    function renderEpds() {
+      const f = document.getElementById('epds-form');
+      if (!f) return;
+      f.innerHTML = EPDS.map((q, i) => `
+        <fieldset class="border border-slate-100 rounded-lg p-2.5 bg-slate-50/60">
+          <legend class="px-1 font-semibold text-slate-800">${i + 1}. ${q[0]}</legend>
+          ${q[1].map(o => `<label class="flex items-center gap-2 py-0.5 cursor-pointer"><input type="radio" name="epds${i}" value="${o[1]}" class="text-rose-600"><span>${o[0]}</span></label>`).join('')}
+        </fieldset>`).join('');
+      const r = document.getElementById('pp-result'); if (r) r.classList.add('hidden');
+      const nm = document.getElementById('epds-patient');
+      if (nm) nm.innerText = (patientProfiles[activePatientId] || {}).name || 'Self Profile';
+    }
+
+    function checkPostpartumScreening() {
+      let total = 0, missing = [], q10 = 0;
+      EPDS.forEach((q, i) => {
+        const c = document.querySelector(`input[name="epds${i}"]:checked`);
+        if (!c) missing.push(i + 1); else { total += +c.value; if (i === 9) q10 = +c.value; }
+      });
+      const resEl = document.getElementById('pp-result');
+      resEl.classList.remove('hidden');
+      if (missing.length) {
+        resEl.className = "mt-2 p-3 bg-slate-100 text-slate-800 rounded-xl text-xs font-semibold border border-slate-300";
+        resEl.innerText = `Please answer question${missing.length > 1 ? 's' : ''} ${missing.join(', ')} to get your score.`;
+        return;
+      }
+      let cls, msg;
+      if (total >= 13) { cls = "bg-red-50 text-red-900 border-red-300"; msg = `Score ${total}/30. This is in the range where postpartum depression is likely. Please see a doctor or ASHA/ANM worker this week and share this score.`; }
+      else if (total >= 10) { cls = "bg-amber-50 text-amber-900 border-amber-300"; msg = `Score ${total}/30. Possible low mood. Talk to someone you trust and mention it at your next check-up. Repeat this screen in 1 to 2 weeks.`; }
+      else { cls = "bg-emerald-50 text-emerald-900 border-emerald-300"; msg = `Score ${total}/30. Low likelihood of postpartum depression right now. Repeat if your mood changes.`; }
+      if (q10 > 0) { cls = "bg-red-50 text-red-900 border-red-400"; msg += ` You answered that thoughts of harming yourself have occurred. You do not have to carry that alone: call Tele-MANAS 14416 or emergency services 112 today, or tell a person near you right now.`; }
+      resEl.className = `mt-2 p-3 rounded-xl text-xs font-semibold border ${cls}`;
+      resEl.innerText = msg;
+      const p = patientProfiles[activePatientId];
+      if (p) { p.epds = { score: total, q10: q10 > 0, date: todayISO() }; savePatientProfilesToStorage(); }
+    }
+
+
+    // =========================================================================
+    // MOTHER WATCH (DYNAMIC PATIENT PROFILES & ISOLATED DATA)
+    // =========================================================================
+
+    function todayISO(d) { d = d || new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); }
+    function toast(msg) {
+      let t = document.getElementById('toast');
+      if (!t) { t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+      t.innerText = msg; t.style.display = 'block';
+      clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 2200);
+    }
+    function blankPatient(name) { return { name, edd: '', readings: [], notes: '', epds: null }; }
+    function riskLevel(r) {
+      const sys = parseInt(r && r.sys), dia = parseInt(r && r.dia);
+      if (isNaN(sys) || isNaN(dia)) return { k: 'none' };
+      if (sys >= 140 || dia >= 90 || (sys >= 130 && (r.headache || r.vision))) return { k: 'red', t: `Blood pressure ${sys}/${dia} needs urgent review` };
+      if (r.movement) return { k: 'red', t: 'Reduced baby movement needs same-day assessment' };
+      if (r.swelling || r.headache || r.vision || sys >= 130 || dia >= 85) return { k: 'amber', t: 'Borderline vitals or warning symptoms logged' };
+      return { k: 'green', t: 'Logged vitals within normal range' };
+    }
+    function weeksFor(edd) {
+      if (!edd) return null;
+      const w = Math.floor((new Date() - (new Date(edd + 'T00:00') - 280 * 864e5)) / (7 * 864e5));
+      return w;
+    }
+    function openSummaryFor(id) { summaryPatientId = id; switchTab('doctor-summary'); window.scrollTo(0, 0); }
+    let summaryPatientId = null;
+
+    function loadPatientProfilesFromStorage() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('sakhi_patient_profiles') || 'null');
+        if (saved) patientProfiles = saved;
+      } catch (e) {}
+      if (!patientProfiles.default) patientProfiles.default = blankPatient('Self Profile');
+      Object.keys(patientProfiles).forEach(id => {
+        const p = patientProfiles[id];
+        if (!Array.isArray(p.readings)) {                     // migrate older single-entry profiles
+          p.readings = (p.sys && p.dia) ? [{ date: todayISO(), sys: p.sys, dia: p.dia, weight: p.weight, headache: !!p.headache, vision: !!p.vision, swelling: !!p.swelling, movement: !!p.movement }] : [];
+        }
+        if (p.notes === undefined) p.notes = '';
+        if (p.epds === undefined) p.epds = null;
+      });
+      const old = localStorage.getItem('sakhi_doctor_notes');
+      if (old && !patientProfiles.default.notes) patientProfiles.default.notes = old;
+    }
+
+    function addNewPatientPrompt() {
+      const name = prompt("Enter New Patient / Profile Name:");
+      if (name && name.trim()) {
+        const newId = `patient_${Date.now()}`;
+        patientProfiles[newId] = blankPatient(name.trim());
+        activePatientId = newId;
+        savePatientProfilesToStorage();
+        renderPatientSelectDropdown();
+        toast(`Created profile for ${name.trim()}`);
+      }
+    }
+
+    function deleteActivePatient() {
+      if (activePatientId === 'default') { toast('The Self Profile cannot be deleted.'); return; }
+      const p = patientProfiles[activePatientId];
+      if (!confirm(`Delete ${p.name} and all of their readings? This cannot be undone.`)) return;
+      delete patientProfiles[activePatientId];
+      if (summaryPatientId === activePatientId) summaryPatientId = null;
+      activePatientId = 'default';
+      savePatientProfilesToStorage();
+      renderPatientSelectDropdown();
+    }
+
+    function switchPatientProfile(id) { activePatientId = id; loadPatientFormData(id); }
+
+    function loadPatientFormData(id) {
+      const p = patientProfiles[id] || blankPatient('Self Profile');
+      const last = p.readings[p.readings.length - 1] || {};
+      document.getElementById('active-profile-badge').innerText = p.name;
+      document.getElementById('mw-name').innerText = p.name;
+      document.getElementById('preg-edd').value = p.edd || '';
+      document.getElementById('vital-sys').value = last.sys || '';
+      document.getElementById('vital-dia').value = last.dia || '';
+      document.getElementById('vital-weight').value = last.weight || '';
+      ['headache', 'vision', 'swelling', 'movement'].forEach(k => document.getElementById('chk-' + k).checked = !!last[k]);
+      document.getElementById('mw-delete').style.display = id === 'default' ? 'none' : '';
+      calculateTrimester();
+      evaluateMotherWatchRisk();
+      renderReadings();
+      renderEpds();
+    }
+
+    function saveAndEvaluateMotherWatch() {
+      const p = patientProfiles[activePatientId];
+      const sys = parseInt(document.getElementById('vital-sys').value), dia = parseInt(document.getElementById('vital-dia').value);
+      if (isNaN(sys) || isNaN(dia) || sys < 60 || sys > 260 || dia < 30 || dia > 160 || dia >= sys) {
+        toast('Enter a realistic systolic and diastolic BP first.'); return;
+      }
+      p.edd = document.getElementById('preg-edd').value;
+      const r = { date: todayISO(), sys, dia, weight: document.getElementById('vital-weight').value,
+        headache: document.getElementById('chk-headache').checked, vision: document.getElementById('chk-vision').checked,
+        swelling: document.getElementById('chk-swelling').checked, movement: document.getElementById('chk-movement').checked };
+      const same = p.readings.findIndex(x => x.date === r.date);   // one reading per day, re-saving updates it
+      if (same >= 0) p.readings[same] = r; else p.readings.push(r);
+      p.readings.sort((a, b) => a.date.localeCompare(b.date));
+      savePatientProfilesToStorage();
+      evaluateMotherWatchRisk();
+      renderReadings();
+      toast(`Saved for ${p.name}`);
+    }
+
+    function deleteReading(i) {
+      const p = patientProfiles[activePatientId];
+      p.readings.splice(i, 1);
+      savePatientProfilesToStorage();
+      loadPatientFormData(activePatientId);
+    }
+
+    function renderReadings() {
+      const p = patientProfiles[activePatientId], el = document.getElementById('mw-history');
+      if (!p.readings.length) { el.innerHTML = '<p class="text-xs text-slate-500">No readings saved for this patient yet. Enter a blood pressure on the left and press Save.</p>'; return; }
+      const pill = { red: 'bg-red-100 text-red-800', amber: 'bg-amber-100 text-amber-800', green: 'bg-emerald-100 text-emerald-800' };
+      const word = { red: 'Urgent', amber: 'Watch', green: 'Normal' };
+      el.innerHTML = `<table class="w-full text-xs text-left"><thead class="text-slate-500"><tr><th class="py-1">Date</th><th>BP</th><th>Weight</th><th>Symptoms</th><th>Status</th><th></th></tr></thead><tbody>` +
+        p.readings.map((r, i) => ({ r, i })).reverse().map(({ r, i }) => {
+          const k = riskLevel(r).k, sy = ['headache', 'vision', 'swelling', 'movement'].filter(x => r[x]).map(x => ({ headache: 'headache', vision: 'vision changes', swelling: 'swelling', movement: 'low movement' }[x])).join(', ');
+          return `<tr class="border-t border-slate-100"><td class="py-1.5">${new Date(r.date + 'T00:00').toLocaleDateString()}</td><td class="font-semibold">${r.sys}/${r.dia}</td><td>${r.weight ? r.weight + ' kg' : '–'}</td><td>${sy || '–'}</td><td><span class="px-2 py-0.5 rounded-full font-bold ${pill[k]}">${word[k]}</span></td><td><button onclick="deleteReading(${i})" class="text-slate-400 hover:text-red-600" aria-label="Delete reading">&times;</button></td></tr>`;
+        }).join('') + '</tbody></table>';
+    }
+
+    function calculateTrimester() {
+      const val = document.getElementById('preg-edd').value, badge = document.getElementById('trimester-badge');
+      if (!val) { badge.innerText = "Trimester: Select EDD date above"; return; }
+      const w = weeksFor(val);
+      if (w < 0) badge.innerText = "Due date is more than 40 weeks away. Check the date.";
+      else if (w > 44) badge.innerText = "Due date has passed by more than 4 weeks. Check the date.";
+      else badge.innerText = `Trimester ${w <= 12 ? 1 : w <= 27 ? 2 : 3} (${w} Weeks Pregnant)`;
+    }
+
+    function evaluateMotherWatchRisk() {
+      const r = { sys: document.getElementById('vital-sys').value, dia: document.getElementById('vital-dia').value,
+        headache: document.getElementById('chk-headache').checked, vision: document.getElementById('chk-vision').checked,
+        swelling: document.getElementById('chk-swelling').checked, movement: document.getElementById('chk-movement').checked };
+      const lv = riskLevel(r);
+      const sets = {
+        none: ['slate', '–', 'NO READING YET', 'Enter blood pressure to see status', 'Add a blood pressure reading and symptoms, then press Save. Status updates from the numbers you log.'],
+        green: ['emerald', '✓', 'GREEN STATUS - NORMAL', 'All Logged Vitals Are Within Normal Range', 'Continue routine antenatal care check-ups and daily iron-folic acid tablets as advised by your doctor.'],
+        amber: ['amber', '⚠️', 'AMBER STATUS - CAUTION', lv.t || '', 'Schedule an ANC check-up within 24 to 48 hours and re-check blood pressure after resting.'],
+        red: ['red', '🚨', 'RED FLAG STATUS - IMMEDIATE ESCALATION', lv.t || '', 'Visit the nearest hospital or obstetrician now. Do not delay.']
+      };
+      const [c, ic, lab, ti, ac] = sets[lv.k];
+      document.getElementById('risk-status-card').className = `mt-4 p-5 rounded-2xl bg-${c}-50 border-2 border-${c}-${lv.k === 'green' || lv.k === 'none' ? 300 : lv.k === 'amber' ? 400 : 500} transition-all`;
+      document.getElementById('risk-status-icon').className = `w-12 h-12 rounded-full bg-${c}-${lv.k === 'none' ? 400 : 500} text-white flex items-center justify-center font-bold text-2xl flex-shrink-0`;
+      document.getElementById('risk-status-icon').innerText = ic;
+      document.getElementById('risk-status-level').className = `text-xs font-bold uppercase tracking-wider text-${c}-800 bg-${c}-100 px-3 py-1 rounded-md`;
+      document.getElementById('risk-status-level').innerText = lab;
+      document.getElementById('risk-status-title').className = `text-lg font-extrabold text-${c}-950 mt-2`;
+      document.getElementById('risk-status-title').innerText = ti;
+      document.getElementById('risk-status-action').className = `text-sm text-${c}-900 mt-1`;
+      document.getElementById('risk-status-action').innerText = ac;
+    }
+
+    function updateDoctorSummaryReport() {
+      if (!summaryPatientId || !patientProfiles[summaryPatientId]) summaryPatientId = activePatientId;
+      const id = summaryPatientId, p = patientProfiles[id], self = id === 'default', $ = x => document.getElementById(x);
+      const sel = $('doc-patient-select');
+      sel.innerHTML = Object.keys(patientProfiles).map(k => `<option value="${k}">${escapeHtml(patientProfiles[k].name)}</option>`).join('');
+      sel.value = id;
+      $('doc-summary-date').innerText = new Date().toLocaleDateString();
+      $('doc-profile-id').innerText = p.name;
+      $('doc-stage-name').innerText = self ? currentStage.toUpperCase() : 'PREGNANCY (MOTHER WATCH)';
+
+      const rd = p.readings, last = rd[rd.length - 1];
+      $('doc-vitals-val').innerText = last ? `${last.sys}/${last.dia} mmHg` : 'No readings';
+      if (self) {
+        let logs = []; try { logs = JSON.parse(localStorage.getItem('sakhi_90day_logs') || '[]'); } catch (e) {}
+        $('doc-mood-val').innerText = logs.length ? `Mood Avg: ${(logs.reduce((a, b) => a + b.mood, 0) / logs.length).toFixed(1)} of 5` : 'No check-ins';
+        $('doc-cycle-val').innerText = $('txt-current-phase').innerText;
+        $('doc-change-val').innerText = `Hot flashes: ${hotFlashCount}/day`;
+      } else {
+        ['doc-mood-val', 'doc-cycle-val', 'doc-change-val'].forEach(x => $(x).innerText = 'Not tracked');
+      }
+
+      const lv = last ? riskLevel(last) : { k: 'none' };
+      const cls = { none: 'bg-slate-50 border-slate-200 text-slate-700', green: 'bg-emerald-50 border-emerald-200 text-emerald-900', amber: 'bg-amber-50 border-amber-300 text-amber-900', red: 'bg-red-50 border-red-300 text-red-900' }[lv.k];
+      const txt = { none: 'No blood pressure readings logged for this patient yet.', green: '✓ GREEN: ' + lv.t, amber: '⚠ AMBER: ' + lv.t, red: '🚨 RED: ' + lv.t + '. Escalate today.' }[lv.k];
+      $('doc-risk-badge').className = `p-3 rounded-xl border text-xs font-semibold ${cls}`;
+      $('doc-risk-badge').innerText = txt + (last ? ` (latest reading ${new Date(last.date + 'T00:00').toLocaleDateString()})` : '');
+
+      let html = '';
+      const w = weeksFor(p.edd);
+      if (p.edd || rd.length || p.epds) {
+        html += `<div><h3 class="font-bold text-slate-800 text-sm mb-2 border-b border-slate-100 pb-1">Pregnancy &amp; Postpartum Record</h3><div class="text-xs text-slate-700 space-y-1">`;
+        if (p.edd) html += `<p><strong>Due date:</strong> ${new Date(p.edd + 'T00:00').toLocaleDateString()}${w !== null && w >= 0 && w <= 44 ? ` (${w} weeks, trimester ${w <= 12 ? 1 : w <= 27 ? 2 : 3})` : ''}</p>`;
+        const wt = rd.filter(r => r.weight);
+        if (wt.length > 1) html += `<p><strong>Weight:</strong> ${wt[0].weight} kg to ${wt[wt.length - 1].weight} kg (${(wt[wt.length - 1].weight - wt[0].weight >= 0 ? '+' : '') + (wt[wt.length - 1].weight - wt[0].weight).toFixed(1)} kg over ${wt.length} readings)</p>`;
+        const flagged = rd.filter(r => ['headache', 'vision', 'swelling', 'movement'].some(k => r[k])).length;
+        if (rd.length) html += `<p><strong>Readings logged:</strong> ${rd.length}, with warning symptoms on ${flagged}</p>`;
+        if (p.epds) html += `<p><strong>Postpartum mood screen:</strong> ${p.epds.score}/30 on ${new Date(p.epds.date + 'T00:00').toLocaleDateString()}${p.epds.q10 ? ' <span class="font-bold text-red-700">· reported thoughts of self-harm, follow up urgently</span>' : ''}</p>`;
+        html += '</div>';
+        if (rd.length) {
+          html += `<table class="w-full text-xs mt-2 text-left"><thead class="text-slate-500"><tr><th class="py-1">Date</th><th>BP</th><th>Weight</th><th>Symptoms</th></tr></thead><tbody>` +
+            rd.slice(-8).reverse().map(r => `<tr class="border-t border-slate-100"><td class="py-1">${new Date(r.date + 'T00:00').toLocaleDateString()}</td><td class="font-semibold">${r.sys}/${r.dia}</td><td>${r.weight ? r.weight + ' kg' : '–'}</td><td>${['headache', 'vision', 'swelling', 'movement'].filter(k => r[k]).map(k => ({ headache: 'headache', vision: 'vision changes', swelling: 'swelling', movement: 'low baby movement' }[k])).join(', ') || '–'}</td></tr>`).join('') + '</tbody></table>';
+        }
+        html += '</div>';
+      }
+      $('doc-patient-detail').innerHTML = html;
+      $('doc-user-notes').value = p.notes || '';
+    }
+
+    function saveDoctorNotes() {
+      const p = patientProfiles[summaryPatientId || activePatientId];
+      if (!p) return;
+      p.notes = document.getElementById('doc-user-notes').value;
+      savePatientProfilesToStorage();
+    }
+
+
+
+    function savePatientProfilesToStorage() {
+      localStorage.setItem('sakhi_patient_profiles', JSON.stringify(patientProfiles));
+    }
+
+
+    function renderPatientSelectDropdown() {
+      const sel = document.getElementById('patient-select');
+      sel.innerHTML = '';
+      Object.keys(patientProfiles).forEach(id => {
+        const opt = document.createElement('option');
+        opt.value = id;
+        opt.innerText = patientProfiles[id].name;
+        sel.appendChild(opt);
+      });
+      sel.value = activePatientId;
+      loadPatientFormData(activePatientId);
+    }
+
+
+    // =========================================================================
+    // CHANGE COMPANION (INTERACTIVE PERIMENOPAUSE MODULE)
+    // =========================================================================
+    function changeFlashCount(delta) {
+      hotFlashCount = Math.max(0, hotFlashCount + delta);
+      document.getElementById('flash-count').innerText = hotFlashCount;
+      updateMenoPattern();
+    }
+
+
+    function updateMenoPattern() {
+      const sweats = document.getElementById('log-sweats').value;
+      const fog = document.getElementById('log-fog').value;
+      const cycle = document.getElementById('log-meno-cycle').value;
+      const patternText = document.getElementById('meno-pattern-text');
+      const tags = document.getElementById('meno-insight-tags');
+
+
+      let desc = [];
+      if (hotFlashCount > 3) desc.push(`Frequent hot flashes (${hotFlashCount}/day) noted.`);
+      if (sweats === 'severe') desc.push("Severe night sweats disrupting sleep.");
+      if (fog === 'high') desc.push("Notable brain fog reported.");
+      if (cycle === 'skipped' || cycle === 'no-period') desc.push("Cycle irregularity aligns with hormone shifts.");
+
+
+      if (desc.length > 0) {
+        patternText.innerText = desc.join(" ") + " These signs are characteristic of the perimenopause transition. Hydration, cooling sleep hygiene, and consulting a physician regarding HRT options can help.";
+      } else {
+        patternText.innerText = "Your logged symptoms show mild transition patterns. Continue tracking daily wellness metrics.";
+      }
+
+
+      tags.innerHTML = `
+        <span class="text-[11px] bg-white text-purple-800 font-bold px-2.5 py-1 rounded-md border border-purple-200">Hot Flashes: ${hotFlashCount}/day</span>
+        <span class="text-[11px] bg-white text-purple-800 font-bold px-2.5 py-1 rounded-md border border-purple-200">Night Sweats: ${sweats.toUpperCase()}</span>
+      `;
+    }
+
+
+    function saveMenopauseLog() {
+      updateMenoPattern();
+      localStorage.setItem('sakhi_meno_log', JSON.stringify({
+        flashes: hotFlashCount,
+        sweats: document.getElementById('log-sweats').value,
+        fog: document.getElementById('log-fog').value,
+        cycle: document.getElementById('log-meno-cycle').value
+      }));
+      alert("Perimenopause symptoms logged and synced to Doctor Summary!");
+    }
+
+
+    function toggleScreening(btn, key) {
+      screeningStatus[key] = !screeningStatus[key];
+      if (screeningStatus[key]) {
+        btn.innerText = "✓ Done";
+        btn.className = "screening-btn px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow-sm";
+      } else {
+        btn.innerText = "Due / Done?";
+        btn.className = "screening-btn px-3 py-1 bg-teal-100 text-teal-800 text-xs font-bold rounded-lg hover:bg-teal-200";
+      }
+
+
+      const count = Object.values(screeningStatus).filter(Boolean).length;
+      document.getElementById('screening-progress').innerText = `${count} of 3 Done`;
+    }
+
+
+    // =========================================================================
+    // DOCTOR VISIT SUMMARY (LIVE DYNAMIC GENERATOR)
+    // =========================================================================
+
+
+    function printDoctorSummary() {
+      window.print();
+    }
+
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+  </script>
+</html>

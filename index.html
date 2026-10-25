@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sakhi - One private companion for every stage of a woman's health</title>
   
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -172,7 +173,6 @@
     </div>
 
 
-
     <section id="sec-ask-sakhi" class="tab-content block space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
@@ -180,7 +180,7 @@
           <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-rose-50/50 rounded-t-2xl">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-lg shadow">
-                स
+                
               </div>
               <div>
                 <h3 class="font-bold text-slate-800 flex items-center gap-2">
@@ -195,9 +195,7 @@
             </button>
           </div>
 
-
           <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-4 bg-slate-50/30"></div>
-
 
           <div class="p-2 border-t border-slate-100 bg-white flex gap-2 overflow-x-auto no-scrollbar">
             <button onclick="sendQuickPrompt('Is missing a period normal during stress?')" class="text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 px-3 py-1.5 rounded-full font-medium whitespace-nowrap border border-rose-100">
@@ -270,8 +268,6 @@
       </div>
     </section>
 
-
-
     <section id="sec-cycle-mind" class="tab-content hidden space-y-6">
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -303,7 +299,6 @@
             <div id="cycle-extra" class="space-y-3"></div>
           </div>
         </div>
-
 
         <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
           <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-1">
@@ -370,9 +365,8 @@
 
       </div>
 
-
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+                
         <div class="lg:col-span-2 space-y-4">
           
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -397,6 +391,7 @@
               <span class="text-[10px] text-slate-500">Logged Cramps</span>
             </div>
           </div>
+
 
           <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
             <div class="flex items-center justify-between mb-4">
@@ -455,7 +450,6 @@
 
     </section>
 
-
     <section id="sec-mother-watch" class="tab-content hidden space-y-6">
       
       <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -477,7 +471,6 @@
           </button>
         </div>
       </div>
-
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
@@ -518,7 +511,6 @@
               <input type="number" id="vital-weight" placeholder="e.g. 62.5" step="0.5" class="w-full border border-slate-200 rounded-xl p-2 text-xs font-semibold">
             </div>
 
-
             <div class="space-y-1.5 pt-2">
               <span class="text-xs font-bold text-slate-700 block">Symptom Check:</span>
               <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
@@ -545,7 +537,6 @@
             </button>
           </div>
         </div>
-
 
         <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 card-shadow flex flex-col justify-between">
           <div>
@@ -580,7 +571,6 @@
             </div>
           </div>
 
-
           <div class="mt-6 border-t border-slate-100 pt-4">
             <h4 class="font-bold text-slate-800 text-xs mb-2">Trimester Clinical Milestones:</h4>
             <div class="grid grid-cols-3 gap-2 text-center text-xs">
@@ -602,8 +592,6 @@
 
       </div>
 
-
-    
       <div class="bg-white p-5 rounded-2xl border border-slate-100 card-shadow">
         <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
           <h3 class="font-bold text-slate-800">Readings for <span id="mw-name">Self Profile</span></h3>
@@ -676,7 +664,6 @@
           </div>
         </div>
 
-
         <div class="lg:col-span-2 space-y-6">
           
           <div id="meno-pattern-card" class="bg-rose-800 border border-purple-200 p-5 rounded-2xl">
@@ -744,7 +731,6 @@
 
     </section>
 
-
     <section id="sec-doctor-summary" class="tab-content hidden space-y-6">
       
       <div class="flex justify-between items-center">
@@ -771,7 +757,6 @@
             <span id="doc-summary-date" class="text-xs text-slate-500">Today</span>
           </div>
         </div>
-
 
         <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl">
           <div>
@@ -850,7 +835,6 @@
 
   </main>
 
-
   <div id="modal-pmdd" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-amber-200 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -896,7 +880,6 @@
     </div>
   </div>
 
-
   <div id="modal-emergency" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-red-500 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -930,7 +913,6 @@
       </div>
     </div>
   </div>
-
 
   <div id="modal-stage" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-xl border border-rose-100 space-y-4">
@@ -974,6 +956,7 @@
 
 
   <script>
+  
     let currentLang = 'en'; 
     let currentStage = 'cycle'; 
     let activePatientId = 'default';
@@ -1018,6 +1001,8 @@
         citation: "ICMR Adolescent & Women's Health Protocols"
       }
     ];
+
+
     const mythCards = [
       {
         myth_en: "Myth: You shouldn't wash your hair or bathe during your period.",
@@ -1455,7 +1440,7 @@
 
       const add = n => new Date(start.getTime() + n * DAY);
       const fmt = dt => dt.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
-      const ov = len - 14;                                   // ovulation day number (luteal phase ~14 days)
+      const ov = len - 14;                                  
       const b1 = per, b2 = Math.max(per, ov - 2), b3 = Math.max(b2, ov + 1);
       const late = diff >= len;
       const day = late ? len : diff + 1;
@@ -1580,7 +1565,7 @@
 
     function updateCycleChartWithRealLogs(logs) {
       if (!cycleChartInstance) return;
-      const recent = logs.slice(-10);
+      const recent = logs.slice(-10); 
       cycleChartInstance.data.labels = recent.map(l => l.date.slice(5));
       cycleChartInstance.data.datasets[0].data = recent.map(l => l.mood);
       cycleChartInstance.data.datasets[1].data = recent.map(l => l.sleep);
@@ -1686,7 +1671,7 @@
       if (!patientProfiles.default) patientProfiles.default = blankPatient('Self Profile');
       Object.keys(patientProfiles).forEach(id => {
         const p = patientProfiles[id];
-        if (!Array.isArray(p.readings)) {                     // migrate older single-entry profiles
+        if (!Array.isArray(p.readings)) {                    
           p.readings = (p.sys && p.dia) ? [{ date: todayISO(), sys: p.sys, dia: p.dia, weight: p.weight, headache: !!p.headache, vision: !!p.vision, swelling: !!p.swelling, movement: !!p.movement }] : [];
         }
         if (p.notes === undefined) p.notes = '';
@@ -1748,7 +1733,7 @@
       const r = { date: todayISO(), sys, dia, weight: document.getElementById('vital-weight').value,
         headache: document.getElementById('chk-headache').checked, vision: document.getElementById('chk-vision').checked,
         swelling: document.getElementById('chk-swelling').checked, movement: document.getElementById('chk-movement').checked };
-      const same = p.readings.findIndex(x => x.date === r.date);   // one reading per day, re-saving updates it
+      const same = p.readings.findIndex(x => x.date === r.date);    
       if (same >= 0) p.readings[same] = r; else p.readings.push(r);
       p.readings.sort((a, b) => a.date.localeCompare(b.date));
       savePatientProfilesToStorage();
@@ -1945,7 +1930,8 @@
       const count = Object.values(screeningStatus).filter(Boolean).length;
       document.getElementById('screening-progress').innerText = `${count} of 3 Done`;
     }
-  function printDoctorSummary() {
+
+    function printDoctorSummary() {
       window.print();
     }
 
